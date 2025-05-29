@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Реестр</title>
+    <link rel="stylesheet" href="/dist/style.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@lucide/web@latest"></script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+   <!-- Topbar -->
+   <header class="w-full h-16 bg-gray-100 border-b border-blue-primary px-6 py-4 flex items-center justify-between">
+      <!-- Левая часть: логотип и навигация -->
+      <div class="flex items-center space-x-8">
+        <!-- Логотип -->
+        <img src="/src/image/Global_icono.svg" alt="Logo" class="h-9 mr-4 custom-icon" />
+
+        <!-- Навигация -->
+        <nav class="flex text-base text-gray-700">
+          <a href="/bukh/data.html" class="sidebar-link active">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="mr-3 size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+              </svg>
+             Реестр
+            </a>
+          </nav>
+      </div>
+
+      <!-- Правая часть: имя и кнопка выйти -->
+      <div class="flex items-center space-x-4">
+        <!-- Имя  -->
+        <div class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="mr-3 size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            Бухгалтер
+        </div>
+
+        <!-- Кнопка выйти -->
+        <button
+            type="submit"
+            class="bg-blue-primary cursor-pointer rounded-lg py-2 px-3 text-base text-white transition">
+            Выйти
+        </button>
+      </div>
+   </header>
+
+    <!-- Dashboard Content -->
+    <main class="bg-gray-100 flex-1 overflow-y-auto p-3">
+
+        <!-- Control Panel -->
+        <div class="bg-gray-100 my-6 rounded-lg bg-white" id="form-container">
+            <div class="bg-gray-100 flex flex-wrap gap-4 lg:flex-nowrap">
+
+                <!-- Filters -->
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm text-center text-gray-700">Дата начала</label>
+                      <input
+                        id="start-date"
+                        type="date"
+                        placeholder="Дата договора"
+                        class="input-base border-default"
+                        min="1900-01-01"
+                        max="2099-12-31"
+                      />
+                </div>
+
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm text-center text-gray-700">Дата окончания</label>
+                      <input
+                        id="end-date"
+                        type="date"
+                        placeholder="Дата договора"
+                        class="input-base border-default"
+                        min="1900-01-01"
+                        max="2099-12-31"
+                      />
+                </div>
+
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
+                    <input
+                          id="bin"
+                          placeholder="ИИН/БИН"
+                          class="input-base border-default"
+                          maxlength="12"
+                          inputmode="numeric"
+                          pattern="\d*"
+                        />
+                </div>
+
+                <div class="mb-1">
+                  <label class="mb-1 block text-sm text-center text-gray-700">Фильтр по столбцу</label>
+                  <select class="h-11 select-base border-default">
+                    <option>Все</option>
+                    <option>Филиал</option>
+                    <option>Наименование заказчика</option>
+                    <option>Плательщик</option>
+                    <option>Наименование объекта оценки</option>
+                    <option>Адрес объекта оценки</option>
+                    <option>Номер договора</option>
+                    <option>Площадь кв.м.</option>
+                    <option>Номер титулки</option>
+                    <option>Исполнитель</option>
+                  </select>
+                </div>
+
+                <div class="mb-1">
+                  <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
+                  <input id="value" placeholder="Введите значение" class="input-base border-default" />
+                </div>
+
+                <button
+                      type="submit"
+                      class="mt-6 bg-blue-primary cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition"
+                    >
+                  Применить
+                </button>
+
+                <button
+                  type="submit"
+                  class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  Скачать данные
+                </button>
+            </div>
+        </div>
+
+   <table id="myTable" class="bg-white display text-sm" style="width:100%">
+    <thead>
+      <tr class="bg-blue-500">
+        <th>Филиал</th>
+        <th>ИИН/БИН</th>
+        <th>Наименование заказчика</th>
+        <th>Плательщик</th>
+        <th>Наименование объекта оценки</th>
+        <th>Адрес объекта оценки</th>
+        <th>Номер договора</th>
+        <th>Дата договора</th>
+        <th>Сумма по договору</th>
+        <th>Фактическая оплата</th>
+        <th>Статус оплаты</th>
+        <th>Количество оценок</th>
+        <th>Наименование Банка</th>
+        <th>Стоимость</th>
+        <th>Площадь кв.м.</th>
+        <th>Стоимость за кв.м.</th>
+        <th>Исполнитель</th>
+        <th>Номер титулки</th>
+        <th>Выездной</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Петропавловск</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card hard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Нет оплаты
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Астана</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Петров И.В.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card hard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Нет оплаты
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalPaid')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"
+       onclick="toggleSidebar()"></div>
+
+   <div id="overlayModal" class="overlay fixed inset-0 z-20 hidden bg-black/50 transition"></div>
+
+    <!-- Pay -->
+    <div id="modalPaid"
+      class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
+      <div class="relative">
+        <form class="flex flex-col rounded-3xl bg-white">
+          <div class="flex items-center justify-between px-6 pt-6 pb-4">
+            <p class="text-xl font-bold">Статус оплаты</p>
+            <button type="button" onclick="toggleModal('modalPaid')" class="text-orange-500 hover:text-red-500">
+              <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-end gap-4 px-6 pb-6">
+            <button type="button" onclick="toggleModal('modalPaid')" class="btn-green">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </span>
+              Оплачено
+            </button>
+
+            <button type="button" onclick="toggleModal('modalPaid')" class="btn-red">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </span>
+              Нет оплаты
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+ </main>
+</body>
+
+<script>
+      $(document).ready(function () {
+        $('#myTable').DataTable({
+          searching: false,
+          info: true,
+          paging: true,
+          lengthChange: false,
+          scrollY: true,
+          scrollX: true,
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json"
+          },
+          dom: 'rtip',
+          columnDefs: [
+            {
+              targets: [8, 9, 13, 15],
+              render: function (data, type, row) {
+                if (type === 'display' || type === 'filter') {
+                  return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                }
+                return data;
+              }
+            }
+          ]
+        });
+      });
+
+      const binInput = document.getElementById('bin');
+
+      binInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          e.target.value = value;
+        });
+
+
+      function toggleModal(modalId, show = null) {
+          const modal = document.getElementById(modalId);
+          const overlay = document.getElementById('overlayModal');
+
+          const shouldShow = show !== null ? show : modal.classList.contains('hidden');
+
+          overlay.classList.toggle('hidden', !shouldShow);
+          modal.classList.toggle('hidden', !shouldShow);
+
+          // Close other modals
+          document.querySelectorAll('.modal').forEach((m) => {
+            if (m.id !== modalId) m.classList.add('hidden');
+          });
+
+          // Body scroll control
+          document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
+
+          if (shouldShow) {
+            lucide.createIcons();
+          }
+      }
+
+      const formContainer = document.getElementById("form-container");
+
+      const focusableElements = formContainer.querySelectorAll(
+        'input:not([type="hidden"]), select, textarea, button'
+      );
+
+      focusableElements.forEach((el, index) => {
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const next = focusableElements[index + 1];
+            if (next) {
+              next.focus();
+            }
+          }
+        });
+      });
+
+</script>
+
+</html>

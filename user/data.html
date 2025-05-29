@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Реестр</title>
+    <link rel="stylesheet" href="/dist/style.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@lucide/web@latest"></script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- Topbar -->
+    <header class="w-full h-16 bg-gray-100 border-b border-blue-primary px-6 py-4 flex items-center justify-between">
+      <!-- Левая часть: логотип и навигация -->
+      <div class="flex items-center space-x-8">
+        <!-- Логотип -->
+        <img src="/src/image/Global_icono.svg" alt="Logo" class="h-9 mr-4 custom-icon" />
+
+        <!-- Навигация -->
+        <nav class="flex text-base text-gray-700">
+          <a href="/user/form.html" class="sidebar-link">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="mr-2 size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+              </svg>
+              Форма отправки
+          </a>
+
+          <a href="/user/data.html" class="sidebar-link active">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="mr-3 size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+              </svg>
+
+             Реестр
+          </a>
+        </nav>
+      </div>
+
+      <!-- Правая часть: имя и кнопка выйти -->
+      <div class="flex items-center space-x-4">
+        <!-- Имя  -->
+        <div class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="mr-3 size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            Сотрудник
+        </div>
+
+          <!-- Кнопка выйти -->
+          <button
+                type="submit"
+                class="bg-blue-primary cursor-pointer rounded-lg py-2 px-3 text-base text-white transition"
+              >
+                Выйти
+          </button>
+      </div>
+    </header>
+
+  <!-- Dashboard Content -->
+  <main class="bg-gray-100 flex-1 overflow-y-auto p-3">
+
+        <!-- Control Panel -->
+        <div class="bg-gray-100 my-6 rounded-lg bg-white" id="panel-container">
+            <div class="bg-gray-100 flex flex-wrap gap-4 lg:flex-nowrap">
+
+                <!-- Filters -->
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm text-center text-gray-700">Дата начала</label>
+                      <input
+                        id="start-date"
+                        type="date"
+                        placeholder="Дата договора"
+                        class="input-base border-default"
+                        min="1900-01-01"
+                        max="2099-12-31"
+                      />
+                </div>
+
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm text-center text-gray-700">Дата окончания</label>
+                      <input
+                        id="end-date"
+                        type="date"
+                        placeholder="Дата договора"
+                        class="input-base border-default"
+                        min="1900-01-01"
+                        max="2099-12-31"
+                      />
+                </div>
+
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
+                    <input
+                          id="bin"
+                          placeholder="ИИН/БИН"
+                          class="input-base border-default"
+                          maxlength="12"
+                          inputmode="numeric"
+                          pattern="\d*"
+                        />
+                </div>
+
+                <div class="mb-1">
+                    <label class="mb-1 block text-sm text-center text-gray-700">Фильтр по столбцу</label>
+                    <select class="h-11 select-base border-default">
+                        <option>Все</option>
+                        <option>Филиал</option>
+                        <option>Наименование заказчика</option>
+                        <option>Плательщик</option>
+                        <option>Наименование объекта оценки</option>
+                        <option>Адрес объекта оценки</option>
+                        <option>Номер договора</option>
+                        <option>Площадь кв.м.</option>
+                        <option>Номер титулки</option>
+                        <option>Исполнитель</option>
+                    </select>
+                </div>
+
+                <div class="mb-1">
+                   <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
+                   <input id="value" placeholder="Введите значение" class="input-base border-default" />
+                </div>
+
+                <button
+                      type="submit"
+                      class="mt-6 bg-blue-primary cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition"
+                    >
+                  Применить
+                </button>
+
+                <button
+                  type="submit"
+                  class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  Скачать данные
+                </button>
+
+            </div>
+        </div>
+
+   <table id="myTable" class="bg-white display text-sm" style="width:100%">
+    <thead>
+      <tr class="bg-blue-500">
+        <th>Филиал</th>
+        <th>ИИН/БИН</th>
+        <th>Наименование заказчика</th>
+        <th>Плательщик</th>
+        <th>Наименование объекта оценки</th>
+        <th>Адрес объекта оценки</th>
+        <th>Номер договора</th>
+        <th>Дата договора</th>
+        <th>Сумма по договору</th>
+        <th>Фактическая оплата</th>
+        <th>Статус оплаты</th>
+        <th>Количество оценок</th>
+        <th>Наименование Банка</th>
+        <th>Стоимость</th>
+        <th>Площадь кв.м.</th>
+        <th>Стоимость за кв.м.</th>
+        <th>Исполнитель</th>
+        <th>Номер титулки</th>
+        <th>Выездной</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Петропавловск</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card hard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Нет оплаты
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Астана</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Петров И.В.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card hard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Нет оплаты
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
+        <td>Семей</td>
+        <td>861116401752</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>ТОО "Фирма"Еламан"</td>
+        <td>квартира</td>
+        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
+        <td>АТА-177/8</td>
+        <td>01.07.2024</td>
+        <td>10000</td>
+        <td>10000</td>
+        <td>
+            <span class="card paid">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Оплачено
+            </span>
+        </td>
+        <td>1</td>
+        <td>Береке</td>
+        <td>30349000</td>
+        <td>108,5</td>
+        <td>279712</td>
+        <td>Иванов И.И.</td>
+        <td>0007565</td>
+        <td>Да</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+   <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"
+        onclick="toggleSidebar()"></div>
+
+   <div id="overlayModal" class="overlay fixed inset-0 z-20 hidden bg-black/50 transition"></div>
+
+    <!-- Редактировать запись -->
+    <div id="modalEdit" class="modal fixed top-10 left-1/2 z-30 hidden w-full max-w-2xl -translate-x-1/2">
+      <div class="relative">
+        <div class="flex flex-col rounded-3xl bg-gray-100 shadow-xl">
+
+            <form class="scrollbar max-h-[80vh] overflow-y-auto px-9 py-5" id="form-container">
+
+                <div class="mt-4 space-y-4">
+                    <div class="flex items-center justify-between ml-5 mb-4">
+                      <p class="text-xl font-semibold text-black-primary">
+                        Редактировать данные
+                      </p>
+
+                      <button type="button" onclick="toggleModal('modalEdit')" class="text-orange-500 hover:text-red-500">
+                        <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>
+                      </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 p-5 sm:grid-cols-2">
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">Филиал</label>
+                        <select class="h-11 select-base border-default">
+                            <option>Филиал</option>
+                            <option>Астана</option>
+                            <option>Шымкент</option>
+                            <option>Семей</option>
+                          </select>
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Фактическая оплата</label>
+                          <input
+                              id="pay"
+                              class="input-base border-default"
+                              inputmode="numeric"
+                              pattern="\d*"
+                              required
+                            />
+                      </div>
+
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">ИИН/БИН</label>
+                        <input
+                              id="iin-bin"
+                              class="input-base border-default"
+                              maxlength="12"
+                              inputmode="numeric"
+                              pattern="\d*"
+                              required
+                            />
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Количество оценок</label>
+                          <input id="count-grade"
+                                 type="number"
+                                 class="input-base border-default"
+                                 required
+                          />
+                      </div>
+
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">Наименование заказчика</label>
+                        <input id="client" class="input-base border-default" required />
+                      </div>
+
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">Наименование Банка</label>
+                        <input id="bank" class="input-base border-default" required/>
+                      </div>
+
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">Плательщик</label>
+                        <input id="payer" class="input-base border-default" required/>
+                      </div>
+
+                      <div>
+                         <label class="mb-1 block text-xs font-medium text-blue-primary">Стоимость</label>
+                         <input
+                              id="cost"
+                              class="input-base border-default"
+                              inputmode="numeric"
+                              pattern="\d*"
+                              required
+                            />
+                      </div>
+
+                      <div>
+                        <label class="mb-1 block text-xs font-medium text-blue-primary">Наименование объекта оценки</label>
+                        <input id="object" class="input-base border-default" required/>
+                      </div>
+
+                      <div>
+                         <label class="mb-1 block text-xs font-medium text-blue-primary">Площадь, кв.м.</label>
+                         <input id="area"
+                                class="input-base border-default"
+                                type="number"
+                                required
+                         />
+                      </div>
+
+                      <div>
+                         <label class="mb-1 block text-xs font-medium text-blue-primary">Адрес</label>
+                         <input id="address" class="input-base border-default" required/>
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Стоимость за кв.м.</label>
+                          <p id="result" class="input-base border-default">0</p>
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Номер договора</label>
+                          <input id="number-deal" class="input-base border-default" required/>
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Номер титулки</label>
+                          <input id="number-titul"
+                                 class="input-base border-default"
+                                 type="number"
+                                 required
+                          />
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Дата договора</label>
+                          <input
+                            id="date-deal"
+                            type="date"
+                            class="input-base border-default"
+                            min="1900-01-01"
+                            max="2099-12-31"
+                            required
+                          />
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Выездной</label>
+                          <input id="trip" class="input-base border-default" />
+                      </div>
+
+                      <div>
+                          <label class="mb-1 block text-xs font-medium text-blue-primary">Сумма по договору</label>
+                          <input
+                              id="sum-deal"
+                              class="input-base border-default"
+                              inputmode="numeric"
+                              pattern="\d*"
+                              required
+                          />
+                      </div>
+
+                      <button class="mt-5 py-1 px-6 h-10 btn-orange btn-orange:hover flex items-center gap-2">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                        </span>
+                        Сохранить
+                      </button>
+
+<!--                       <button class="mt-4 btn-outline btn&#45;&#45;red" onclick="toggleModal('modalDel')">-->
+<!--                          <span>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                              stroke="currentColor" class="size-5">-->
+<!--                              <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />-->
+<!--                            </svg>-->
+<!--                          </span>-->
+<!--                          Удалить запись-->
+<!--                       </button>-->
+
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+<!--    &lt;!&ndash; Delete Data &ndash;&gt;-->
+<!--    <div id="modalDel"-->
+<!--         class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">-->
+<!--      <div class="relative">-->
+
+<!--          <form class="flex flex-col rounded-3xl bg-white shadow-xl">-->
+<!--            <div class="flex items-center justify-between border-b border-gray-200 px-6 pt-6 pb-4">-->
+<!--                <p class="text-xl font-bold">Удалить запись</p>-->
+<!--                <button type="button" onclick="toggleModal('modalDel')" class="text-gray-400 hover:text-gray-500">-->
+<!--                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            <div class="px-6 py-4">-->
+<!--                <p class="mb-4 text-sm">-->
+<!--                  Вы точно уверены, что хотите удалить запись?-->
+<!--                </p>-->
+<!--            </div>-->
+
+<!--            <div class="flex items-center justify-end gap-4 px-6 pb-6">-->
+<!--                <button type="button" onclick="toggleModal('modalDel')" class="btn-red">-->
+<!--                  <span>-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                      stroke="currentColor" class="size-5">-->
+<!--                      <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />-->
+<!--                    </svg>-->
+<!--                  </span>-->
+<!--                  Удалить-->
+<!--                </button>-->
+
+<!--                <button type="button" onclick="toggleModal('modalDel')" class="btn-gray-b cursor-pointer">-->
+<!--                  Отмена-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+
+  </main>
+</body>
+
+<script>
+      $(document).ready(function () {
+        $('#myTable').DataTable({
+          searching: false,
+          info: true,
+          paging: true,
+          lengthChange: false,
+          scrollY: true,
+          scrollX: true,
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json"
+          },
+          dom: 'rtip',
+          columnDefs: [
+            {
+              targets: [8, 9, 13, 15],
+              render: function (data, type, row) {
+                if (type === 'display' || type === 'filter') {
+                  return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                }
+                return data;
+              }
+            }
+          ]
+        });
+      });
+
+      const payInput = document.getElementById('pay');
+      const costInput = document.getElementById('cost');
+      const binInput = document.getElementById('iin-bin');
+      const bin2Input = document.getElementById('bin');
+      const sumInput = document.getElementById('sum-deal');
+
+      payInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' '); // Добавить пробелы каждые 3 цифры
+          e.target.value = value;
+      });
+
+      costInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' '); // Добавить пробелы каждые 3 цифры
+          e.target.value = value;
+      });
+
+      sumInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' '); // Добавить пробелы каждые 3 цифры
+          e.target.value = value;
+      });
+
+      binInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          e.target.value = value;
+      });
+
+      bin2Input.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
+          e.target.value = value;
+      });
+
+      function toggleModal(modalId, show = null) {
+          const modal = document.getElementById(modalId);
+          const overlay = document.getElementById('overlayModal');
+
+          const shouldShow = show !== null ? show : modal.classList.contains('hidden');
+
+          overlay.classList.toggle('hidden', !shouldShow);
+          modal.classList.toggle('hidden', !shouldShow);
+
+          // Close other modals
+          document.querySelectorAll('.modal').forEach((m) => {
+            if (m.id !== modalId) m.classList.add('hidden');
+          });
+
+          // Body scroll control
+          document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
+
+          if (shouldShow) {
+            lucide.createIcons();
+          }
+      }
+
+      const formContainer = document.getElementById("panel-container");
+
+      const focusableElements = formContainer.querySelectorAll(
+        'input:not([type="hidden"]), select, textarea, button'
+      );
+
+      focusableElements.forEach((el, index) => {
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const next = focusableElements[index + 1];
+            if (next) {
+              next.focus();
+            }
+          }
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+          const formContainer = document.getElementById("form-container");
+          const focusableElements = Array.from(
+            formContainer.querySelectorAll('input:not([type="hidden"]), select, textarea, button')
+          );
+
+          // Навигация по Enter
+          focusableElements.forEach((el, index) => {
+            el.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                const next = focusableElements[index + 1];
+                if (next) next.focus();
+              }
+            });
+          });
+
+          // Навигация по стрелкам
+          document.addEventListener("keydown", (e) => {
+            const active = document.activeElement;
+            const currentIndex = focusableElements.indexOf(active);
+            if (currentIndex === -1) return;
+
+            const getPosition = (el) => {
+              const rect = el.getBoundingClientRect();
+              return { top: rect.top + window.scrollY, left: rect.left + window.scrollX };
+            };
+
+            const currentPos = getPosition(active);
+
+            const candidates = focusableElements
+              .filter(el => el !== active)
+              .map(el => {
+                const pos = getPosition(el);
+                return { el, top: pos.top, left: pos.left };
+              });
+
+            let next;
+
+            switch (e.key) {
+              case "ArrowDown":
+                next = candidates
+                  .filter(c => c.top > currentPos.top)
+                  .sort((a, b) => a.top - b.top || Math.abs(a.left - currentPos.left) - Math.abs(b.left - currentPos.left))[0];
+                break;
+              case "ArrowUp":
+                next = candidates
+                  .filter(c => c.top < currentPos.top)
+                  .sort((a, b) => b.top - a.top || Math.abs(a.left - currentPos.left) - Math.abs(b.left - currentPos.left))[0];
+                break;
+              case "ArrowRight":
+                next = candidates
+                  .filter(c => c.left > currentPos.left && Math.abs(c.top - currentPos.top) < 10)
+                  .sort((a, b) => a.left - b.left)[0];
+                break;
+              case "ArrowLeft":
+                next = candidates
+                  .filter(c => c.left < currentPos.left && Math.abs(c.top - currentPos.top) < 10)
+                  .sort((a, b) => b.left - a.left)[0];
+                break;
+            }
+
+            if (next) {
+              e.preventDefault();
+              next.el.focus();
+            }
+          });
+
+          // Форматирование и расчёт
+          const costInput = document.getElementById('cost');
+          const areaInput = document.getElementById('area');
+          const resultDisplay = document.getElementById('result');
+
+          costInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            e.target.value = value;
+            calculate();
+          });
+
+          areaInput.addEventListener('input', calculate);
+
+          function calculate() {
+            const costRaw = costInput.value.replace(/\s/g, '');
+            const areaRaw = areaInput.value;
+
+            const cost = parseFloat(costRaw);
+            const area = parseFloat(areaRaw);
+
+            const result = (cost > 0 && area > 0) ? cost / area : 0;
+
+            const formatted = new Intl.NumberFormat('ru-RU', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }).format(result);
+
+            resultDisplay.textContent = formatted;
+          }
+      });
+
+</script>
+
+</html>
