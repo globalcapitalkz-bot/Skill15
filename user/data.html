@@ -11,6 +11,10 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@lucide/web@latest"></script>
+    <script src="/src/js/username.js"></script>
+    <script src="/src/js/auth.js"></script>
+    <script src="/src/js/auth-user.js"></script>
+     <script src="/src/js/filial.js"></script>
 
 </head>
 
@@ -48,17 +52,18 @@
       <!-- Правая часть: имя и кнопка выйти -->
       <div class="flex items-center space-x-4">
         <!-- Имя  -->
-        <div class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="mr-3 size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              </svg>
-            Сотрудник
+        <div id="user-name" class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="mr-3 size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+
         </div>
 
           <!-- Кнопка выйти -->
           <button
+                  id="exit"
                 type="submit"
                 class="bg-blue-primary cursor-pointer rounded-lg py-2 px-3 text-base text-white transition"
               >
@@ -99,39 +104,6 @@
                       />
                 </div>
 
-                <div class="mb-1">
-                    <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
-                    <input
-                          id="bin"
-                          placeholder="ИИН/БИН"
-                          class="input-base border-default"
-                          maxlength="12"
-                          inputmode="numeric"
-                          pattern="\d*"
-                        />
-                </div>
-
-                <div class="mb-1">
-                    <label class="mb-1 block text-sm text-center text-gray-700">Фильтр по столбцу</label>
-                    <select class="h-11 select-base border-default">
-                        <option>Все</option>
-                        <option>Филиал</option>
-                        <option>Наименование заказчика</option>
-                        <option>Плательщик</option>
-                        <option>Наименование объекта оценки</option>
-                        <option>Адрес объекта оценки</option>
-                        <option>Номер договора</option>
-                        <option>Площадь кв.м.</option>
-                        <option>Номер титулки</option>
-                        <option>Исполнитель</option>
-                    </select>
-                </div>
-
-                <div class="mb-1">
-                   <label class="mb-1 block text-sm h-5 text-center text-gray-700"></label>
-                   <input id="value" placeholder="Введите значение" class="input-base border-default" />
-                </div>
-
                 <button
                       type="submit"
                       class="mt-6 bg-blue-primary cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition"
@@ -156,293 +128,53 @@
    <table id="myTable" class="bg-white display text-sm" style="width:100%">
     <thead>
       <tr class="bg-blue-500">
-        <th>Филиал</th>
-        <th>ИИН/БИН</th>
-        <th>Наименование заказчика</th>
-        <th>Плательщик</th>
-        <th>Наименование объекта оценки</th>
-        <th>Адрес объекта оценки</th>
-        <th>Номер договора</th>
-        <th>Дата договора</th>
-        <th>Сумма по договору</th>
-        <th>Фактическая оплата</th>
-        <th>Статус оплаты</th>
-        <th>Количество оценок</th>
-        <th>Наименование Банка</th>
-        <th>Стоимость</th>
-        <th>Площадь кв.м.</th>
-        <th>Стоимость за кв.м.</th>
-        <th>Исполнитель</th>
-        <th>Номер титулки</th>
-        <th>Выездной</th>
+          <th data-field="id">id</th>
+        <th data-field="department.dep_name">Филиал</th>
+        <th data-field="iin_bin">ИИН/БИН</th>
+        <th data-field="customer_name">Наименование заказчика</th>
+        <th data-field="payer">Плательщик</th>
+        <th data-field="object_name">Наименование объекта оценки</th>
+        <th data-field="object_address">Адрес объекта оценки</th>
+        <th data-field="contract_number">Номер договора</th>
+        <th data-field="contract_date">Дата договора</th>
+        <th data-field="contract_amount">Сумма по договору</th>
+        <th data-field="actual_payment">Фактическая оплата</th>
+        <th data-field="is_paid">Статус оплаты</th>
+        <th data-field="evaluation_count">Количество оценок</th>
+        <th data-field="bank_name">Наименование Банка</th>
+        <th data-field="cost">Стоимость</th>
+        <th data-field="area">Площадь кв.м.</th>
+        <th data-field="cost_per_sqm">Стоимость за кв.м.</th>
+        <th data-field="executor.full_name">Исполнитель</th>
+        <th data-field="title_number">Номер титулки</th>
+        <th data-field="is_offsite">Выездной</th>
       </tr>
+         <tr>
+          <!-- Фильтры -->
+          <th></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input type="text" placeholder="Поиск" /></th>
+        </tr>
     </thead>
 
     <tbody>
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Петропавловск</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card hard">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke-width="1.5" stroke="currentColor" class="size-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                Нет оплаты
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Астана</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card paid">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                Оплачено
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Петров И.В.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card hard">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke-width="1.5" stroke="currentColor" class="size-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                Нет оплаты
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card paid">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                Оплачено
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card paid">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                Оплачено
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card paid">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                Оплачено
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
-
-      <tr onclick="toggleModal('modalEdit')" class="cursor-pointer hover:bg-orange-100 !important">
-        <td>Семей</td>
-        <td>861116401752</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>ТОО "Фирма"Еламан"</td>
-        <td>квартира</td>
-        <td>с. Шамалган, ул. Қапал Батыр, д. 63А</td>
-        <td>АТА-177/8</td>
-        <td>01.07.2024</td>
-        <td>10000</td>
-        <td>10000</td>
-        <td>
-            <span class="card paid">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                Оплачено
-            </span>
-        </td>
-        <td>1</td>
-        <td>Береке</td>
-        <td>30349000</td>
-        <td>108,5</td>
-        <td>279712</td>
-        <td>Иванов И.И.</td>
-        <td>0007565</td>
-        <td>Да</td>
-      </tr>
 
     </tbody>
   </table>
@@ -472,13 +204,10 @@
 
                     <div class="grid grid-cols-1 gap-2 p-5 sm:grid-cols-2">
                       <div>
-                        <label class="mb-1 block text-xs font-medium text-blue-primary">Филиал</label>
-                        <select class="h-11 select-base border-default">
-                            <option>Филиал</option>
-                            <option>Астана</option>
-                            <option>Шымкент</option>
-                            <option>Семей</option>
-                          </select>
+                           <label class="mb-1 block text-xs font-medium text-blue-primary">Филиал</label>
+                           <select id="city-select" class="h-11 select-base border-default">
+                             <option></option>
+                           </select>
                       </div>
 
                       <div>
@@ -487,7 +216,6 @@
                               id="pay"
                               class="input-base border-default"
                               inputmode="numeric"
-                              pattern="\d*"
                               required
                             />
                       </div>
@@ -496,10 +224,9 @@
                         <label class="mb-1 block text-xs font-medium text-blue-primary">ИИН/БИН</label>
                         <input
                               id="iin-bin"
-                              class="input-base border-default"
+                              class="form-input input-base border-default"
                               maxlength="12"
                               inputmode="numeric"
-                              pattern="\d*"
                               required
                             />
                       </div>
@@ -534,7 +261,6 @@
                               id="cost"
                               class="input-base border-default"
                               inputmode="numeric"
-                              pattern="\d*"
                               required
                             />
                       </div>
@@ -550,11 +276,12 @@
                                 class="input-base border-default"
                                 type="number"
                                 required
+                                step="0.01"
                          />
                       </div>
 
                       <div>
-                         <label class="mb-1 block text-xs font-medium text-blue-primary">Адрес</label>
+                         <label class="mb-1 block text-xs font-medium text-blue-primary">Адрес объекта оценки</label>
                          <input id="address" class="input-base border-default" required/>
                       </div>
 
@@ -600,12 +327,11 @@
                               id="sum-deal"
                               class="input-base border-default"
                               inputmode="numeric"
-                              pattern="\d*"
                               required
                           />
                       </div>
 
-                      <button class="mt-5 py-1 px-6 h-10 btn-orange btn-orange:hover flex items-center gap-2">
+                      <button id="save-button" class="mt-5 py-1 px-6 h-10 btn-orange flex items-center gap-2">
                         <span>
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-5">
@@ -616,16 +342,16 @@
                         Сохранить
                       </button>
 
-<!--                       <button class="mt-4 btn-outline btn&#45;&#45;red" onclick="toggleModal('modalDel')">-->
-<!--                          <span>-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-<!--                              stroke="currentColor" class="size-5">-->
-<!--                              <path stroke-linecap="round" stroke-linejoin="round"-->
-<!--                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />-->
-<!--                            </svg>-->
-<!--                          </span>-->
-<!--                          Удалить запись-->
-<!--                       </button>-->
+                       <button type="button" class="mt-4 btn-outline btn--red" onclick="toggleModal('modalDel')">
+                          <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                              stroke="currentColor" class="size-5">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                          </span>
+                          Удалить запись
+                       </button>
 
                     </div>
                 </div>
@@ -634,79 +360,81 @@
       </div>
     </div>
 
-<!--    &lt;!&ndash; Delete Data &ndash;&gt;-->
-<!--    <div id="modalDel"-->
-<!--         class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">-->
-<!--      <div class="relative">-->
+    <!-- Delete Data -->
+    <div id="modalDel"
+         class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
+      <div class="relative">
 
-<!--          <form class="flex flex-col rounded-3xl bg-white shadow-xl">-->
-<!--            <div class="flex items-center justify-between border-b border-gray-200 px-6 pt-6 pb-4">-->
-<!--                <p class="text-xl font-bold">Удалить запись</p>-->
-<!--                <button type="button" onclick="toggleModal('modalDel')" class="text-gray-400 hover:text-gray-500">-->
-<!--                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>-->
-<!--                </button>-->
-<!--            </div>-->
+          <form class="flex flex-col rounded-3xl bg-white shadow-xl">
+            <div class="flex items-center justify-between border-b border-gray-200 px-6 pt-6 pb-4">
+                <p class="text-xl font-bold">Удалить запись</p>
+                <button type="button" onclick="toggleModal('modalDel')" class="text-orange-500 hover:text-red-500">
+                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>
+                </button>
+            </div>
 
-<!--            <div class="px-6 py-4">-->
-<!--                <p class="mb-4 text-sm">-->
-<!--                  Вы точно уверены, что хотите удалить запись?-->
-<!--                </p>-->
-<!--            </div>-->
+            <div class="px-6 py-4">
+                <p class="mb-4 text-sm">
+                  Вы точно уверены, что хотите удалить запись?
+                </p>
+            </div>
 
-<!--            <div class="flex items-center justify-end gap-4 px-6 pb-6">-->
-<!--                <button type="button" onclick="toggleModal('modalDel')" class="btn-red">-->
-<!--                  <span>-->
-<!--                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-<!--                      stroke="currentColor" class="size-5">-->
-<!--                      <path stroke-linecap="round" stroke-linejoin="round"-->
-<!--                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />-->
-<!--                    </svg>-->
-<!--                  </span>-->
-<!--                  Удалить-->
-<!--                </button>-->
+            <div class="flex items-center justify-end gap-4 px-6 pb-6">
+                <button type="button" id="delete-data" class="btn-red">
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                  </span>
+                  Удалить
+                </button>
 
-<!--                <button type="button" onclick="toggleModal('modalDel')" class="btn-gray-b cursor-pointer">-->
-<!--                  Отмена-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--    </div>-->
+                <button type="button" onclick="toggleModal('modalDel')" class="btn-gray-b cursor-pointer">
+                  Отмена
+                </button>
+            </div>
+        </form>
+      </div>
+    </div>
 
   </main>
 </body>
 
 <script>
-      $(document).ready(function () {
-        $('#myTable').DataTable({
-          searching: false,
-          info: true,
-          paging: true,
-          lengthChange: false,
-          scrollY: true,
-          scrollX: true,
-          language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json"
-          },
-          dom: 'rtip',
-          columnDefs: [
-            {
-              targets: [8, 9, 13, 15],
-              render: function (data, type, row) {
-                if (type === 'display' || type === 'filter') {
-                  return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                }
-                return data;
-              }
-            }
-          ]
-        });
+
+    function toggleModal(modalId, show = null) {
+      const modal = document.getElementById(modalId);
+      const overlay = document.getElementById('overlayModal');
+
+      const shouldShow = show !== null ? show : modal.classList.contains('hidden');
+
+      overlay.classList.toggle('hidden', !shouldShow);
+      modal.classList.toggle('hidden', !shouldShow);
+
+      // Close other modals
+      document.querySelectorAll('.modal').forEach((m) => {
+        if (m.id !== modalId) m.classList.add('hidden');
       });
+
+      // Body scroll control
+      document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
+
+      if (shouldShow) {
+        lucide.createIcons();
+      }
+    }
+
+    const formContainer = document.getElementById("form-container");
+
+    const focusableElements = formContainer.querySelectorAll(
+    'input:not([type="hidden"]), select, textarea, button'
+    );
 
       const payInput = document.getElementById('pay');
       const costInput = document.getElementById('cost');
       const binInput = document.getElementById('iin-bin');
-      const bin2Input = document.getElementById('bin');
       const sumInput = document.getElementById('sum-deal');
 
       payInput.addEventListener('input', function (e) {
@@ -730,51 +458,6 @@
       binInput.addEventListener('input', function (e) {
           let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
           e.target.value = value;
-      });
-
-      bin2Input.addEventListener('input', function (e) {
-          let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
-          e.target.value = value;
-      });
-
-      function toggleModal(modalId, show = null) {
-          const modal = document.getElementById(modalId);
-          const overlay = document.getElementById('overlayModal');
-
-          const shouldShow = show !== null ? show : modal.classList.contains('hidden');
-
-          overlay.classList.toggle('hidden', !shouldShow);
-          modal.classList.toggle('hidden', !shouldShow);
-
-          // Close other modals
-          document.querySelectorAll('.modal').forEach((m) => {
-            if (m.id !== modalId) m.classList.add('hidden');
-          });
-
-          // Body scroll control
-          document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
-
-          if (shouldShow) {
-            lucide.createIcons();
-          }
-      }
-
-      const formContainer = document.getElementById("panel-container");
-
-      const focusableElements = formContainer.querySelectorAll(
-        'input:not([type="hidden"]), select, textarea, button'
-      );
-
-      focusableElements.forEach((el, index) => {
-        el.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const next = focusableElements[index + 1];
-            if (next) {
-              next.focus();
-            }
-          }
-        });
       });
 
       document.addEventListener('DOMContentLoaded', function () {
@@ -876,6 +559,285 @@
             resultDisplay.textContent = formatted;
           }
       });
+
+  async function loadTableData() {
+    try {
+      const response = await authorizedFetch('http://10.25.8.116:8000/api/reestr/');
+      const data = await response.json();
+
+      if (data.results && Array.isArray(data.results)) {
+        const table = $('#myTable').DataTable();
+
+        data.results.forEach(item => {
+          const row = [];
+
+          $('#myTable thead th').each(function () {
+            const field = $(this).data('field');
+
+            if (!field) {
+              row.push('');
+              return;
+            }
+
+            const value = field.split('.').reduce((acc, key) => acc?.[key], item);
+
+            if (field === 'is_paid') {
+              const paidHtml = `
+                <span class="card paid">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                       stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  Оплачено
+                </span>`;
+
+              const unpaidHtml = `
+                <span class="card hard">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                       stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Не оплачено
+                </span>`;
+
+              row.push(value ? paidHtml : unpaidHtml);
+            } else {
+              row.push(value ?? '');
+            }
+          });
+
+          table.row.add(row).draw(false);
+        });
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке данных:', error);
+    }
+  }
+
+  $(document).ready(function () {
+      const table = $('#myTable').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      searching: true,
+      info: true,
+      paging: true,
+      lengthChange: false,
+      scrollY: true,
+      scrollX: true,
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json"
+      },
+      dom: 'rtip',
+      columnDefs: [
+        {
+          targets: [9, 10, 14, 16],
+          render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+              return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+            return data;
+          }
+        },
+        {
+          targets: [10],
+          orderable: false,
+          searchable: false,
+          render: function (data, type, row) {
+            return type === 'display' ? data : $(data).text();
+          }
+        }
+      ]
+    });
+
+    $('#myTable thead tr:eq(1) th').each(function (i) {
+      $('input', this).on('keyup change', function () {
+        if ($('#myTable').DataTable().column(i).search() !== this.value) {
+          $('#myTable').DataTable().column(i).search(this.value).draw();
+        }
+      });
+    });
+
+    let currentRecordId = null;
+
+    $('#myTable tbody').on('click', 'tr', function () {
+      const rowData = table.row(this).data();
+
+      currentRecordId = rowData[0];
+
+      // Пример: вставка данных в модальное окно
+      const select = document.getElementById('city-select');
+      const options = Array.from(select.options);
+      const match = options.find(opt => opt.textContent.trim() === rowData[1].trim());
+        if (match) {
+          select.value = match.value;
+        }
+      document.getElementById('iin-bin').value = rowData[2];
+      document.getElementById('client').value = rowData[3];
+      document.getElementById('payer').value = rowData[4];
+      document.getElementById('object').value = rowData[5];
+      document.getElementById('address').value = rowData[6];
+      document.getElementById('number-deal').value = rowData[7];
+      document.getElementById('date-deal').value = rowData[8];
+         const sumValue = Math.trunc(parseFloat(rowData[9])); // убираем дробную часть
+         document.getElementById('sum-deal').value = sumValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+         const payValue = Math.trunc(parseFloat(rowData[10])); // убираем дробную часть
+         document.getElementById('pay').value = payValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+      document.getElementById('count-grade').value = rowData[12];
+      document.getElementById('bank').value = rowData[13];
+         const costValue = Math.trunc(parseFloat(rowData[14])); // убираем дробную часть
+         document.getElementById('cost').value = costValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+      document.getElementById('area').value = rowData[15];
+
+      const cost = parseFloat(rowData[14]);
+      const area = parseFloat(rowData[15]);
+      const result = (cost > 0 && area > 0) ? cost / area : 0;
+
+      const formatted = new Intl.NumberFormat('ru-RU', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+      }).format(result);
+
+      document.getElementById('result').textContent = formatted;
+
+      document.getElementById('number-titul').value = rowData[18];
+      document.getElementById('trip').value = rowData[19];
+
+      toggleModal('modalEdit');
+
+      calculate();
+    });
+
+    async function submitForm(currentRecordId) {
+      const department = document.getElementById('city-select').value;
+        const payValue = document.getElementById('pay').value;
+        const cleanValue = payValue.replace(/\s/g, ''); // удаляет все пробелы
+        const actual_payment = parseFloat(cleanValue);
+      const iin_bin = document.getElementById('iin-bin').value;
+      const evaluation_count = document.getElementById('count-grade').value;
+      const customer_name = document.getElementById('client').value;
+      const bank_name = document.getElementById('bank').value;
+      const payer = document.getElementById('payer').value;
+        const rawValue = document.getElementById('cost').value;
+        const cleanedValue = rawValue.replace(/\s/g, ''); // удаляет все пробелы
+        const cost = parseFloat(cleanedValue);
+      const object_name = document.getElementById('object').value;
+        const areaValue = document.getElementById('area').value;
+        const cleaValue = areaValue.replace(/\s/g, ''); // удаляет все пробелы
+        const area = parseFloat(cleaValue);
+      const object_address = document.getElementById('address').value;
+        const resultValue = document.getElementById('result').textContent;
+        const clValue = resultValue.replace(/\s/g, '').replace(',', '.');
+        const cost_per_sqm = parseFloat(clValue);
+      const contract_number = document.getElementById('number-deal').value;
+      const title_number = document.getElementById('number-titul').value;
+      const contract_date = document.getElementById('date-deal').value;
+      const is_offsite = document.getElementById('trip').value;
+        const sumValue = document.getElementById('sum-deal').value;
+        const cleValue = sumValue.replace(/\s/g, ''); // удаляет все пробелы
+        const contract_amount = parseFloat(cleValue);
+
+      const requiredFields = [
+        'city-select', 'pay', 'iin-bin', 'count-grade', 'client', 'bank',
+        'payer', 'cost', 'object', 'area', 'address', 'number-deal',
+        'number-titul', 'date-deal', 'trip', 'sum-deal'
+      ];
+
+      for (let id of requiredFields) {
+        const element = document.getElementById(id);
+        if (!element.value.trim()) {
+          alert('Пожалуйста, заполните все поля!');
+          element.focus();
+          return;
+        }
+      }
+
+      const payload = {
+        department,
+        actual_payment,
+        iin_bin,
+        evaluation_count,
+        customer_name,
+        bank_name,
+        payer,
+        cost,
+        object_name,
+        area,
+        object_address,
+        cost_per_sqm,
+        contract_number,
+        title_number,
+        contract_date,
+        is_offsite,
+        contract_amount
+      };
+
+      try {
+
+        console.log('currentRecordId:', currentRecordId);
+        console.log('Payload:', payload);
+
+        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('Ошибка при отправке данных');
+        }
+
+        const data = await response.json();
+<!--        alert('Данные успешно обновлены!');-->
+<!--        window.location.reload();-->
+      } catch (error) {
+<!--        alert('Произошла ошибка: ' + error.message);-->
+      }
+    }
+
+    document.getElementById('save-button').addEventListener('click', function () {
+    console.log('Сохраняем ID:', currentRecordId);
+      submitForm(currentRecordId);
+    });
+
+    document.getElementById('delete-data').addEventListener('click', async function () {
+      if (!currentRecordId) {
+        alert('ID записи не найден!');
+        return;
+      }
+
+<!--      const confirmDelete = confirm('Вы уверены, что хотите удалить эту запись?');-->
+<!--      if (!confirmDelete) return;-->
+
+      try {
+        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Ошибка при удалении записи');
+        }
+
+<!--        alert('Запись успешно удалена!');-->
+        window.location.reload(); // или перенаправление на другую страницу
+      } catch (error) {
+        alert('Произошла ошибка при удалении: ' + error.message);
+      }
+    });
+
+    loadTableData();
+  });
+
+  document.getElementById('exit').addEventListener('click', function () {
+    window.location.href = '/index.html';
+  });
 
 </script>
 

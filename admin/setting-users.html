@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/dist/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@lucide/web@latest"></script>
+    <script src="/src/js/auth.js"></script>
+    <script src="/src/js/auth-admin.js"></script>
+    <script src="/src/js/username.js"></script>
 
 </head>
 
@@ -57,17 +60,18 @@
       <!-- Правая часть: имя и кнопка выйти -->
       <div class="flex items-center space-x-4">
         <!-- Имя  -->
-        <div class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
+        <div id="user-name" class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="mr-3 size-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
                       d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               </svg>
-            Админ
+
         </div>
 
         <!-- Кнопка выйти -->
           <button
+                  id="exit"
                 type="submit"
                 class="bg-blue-primary cursor-pointer rounded-lg py-2 px-3 text-base text-white transition"
               >
@@ -82,7 +86,7 @@
         <div class="flex justify-center items-center min-h-screen">
             <div class="tabs w-fit items-center justify-center">
                 <a href="/admin/setting.html" class="tabs-link">Добавить пользователя</a>
-                <a href="/admin/setting-users.html" class="tabs-link active">Список пользователей</a>
+                <a href="/admin/setting-users.html" class="tabs-link active" onclick="addUser()">Список пользователей</a>
                 <a href="/admin/setting-filial.html" class="tabs-link">Филиалы</a>
             </div>
         </div>
@@ -92,99 +96,16 @@
               <table class="table-rate w-full">
                 <thead class="bg-white">
                   <tr class="table-tr border-gray-border border-b">
+                    <th class="p-table">Id</th>
                     <th class="p-table">ФИО</th>
                     <th class="p-table">Логин</th>
                     <th class="p-table">Роль</th>
                     <th class="p-table">Филиал</th>
-                    <th class="p-table">ИИН</th>
                     <th class="p-table">Действие</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                  <tr class="hover:bg-orange-100">
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Айлин Сатиева</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">satieva</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Админ</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Алматы</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">880325301589</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                        <button class="text-red-500 cursor-pointer" onclick="toggleModal('modalDel')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                    </td>
-                  </tr>
-
-                  <tr class="hover:bg-orange-100">
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Назерке Шераева</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">sheraeva</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Сотрудник</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Алматы</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">880325301589</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                        <button class="text-red-500 cursor-pointer" onclick="toggleModal('modalDel')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                    </td>
-                  </tr>
-
-                  <tr class="hover:bg-orange-100">
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Амир Мусин</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">musin</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Сотрудник</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Алматы</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">880325301589</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                        <button class="text-red-500 cursor-pointer" onclick="toggleModal('modalDel')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                    </td>
-                  </tr>
-
-                  <tr class="hover:bg-orange-100">
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Айжан Мусабаева</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">musabaeva</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Бухгалтер</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Алматы</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">880325301589</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                        <button class="text-red-500 cursor-pointer" onclick="toggleModal('modalDel')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                    </td>
-                  </tr>
-
-                  <tr class="hover:bg-orange-100">
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Иван Иванов</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">ivanov</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Сотрудник</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">Алматы</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">880325301589</td>
-                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                        <button class="text-red-500 cursor-pointer" onclick="toggleModal('modalDel')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                    </td>
-                  </tr>
+<!--                  Добавляется с помощью js-->
                 </tbody>
               </table>
           </div>
@@ -208,20 +129,21 @@
               </div>
 
               <div class="px-6 py-4">
-                <p class="mb-4 text-sm">
-                  Вы точно уверены, что хотите удалить пользователя?
+              <p class="mb-4 text-sm">
+                  Вы точно уверены, что хотите удалить пользователя
+                  <span id="userFullNameText" class="font-semibold text-red-600"></span>
+                  (ID: <span id="userIdText" class="font-semibold text-red-600"></span>)?
                 </p>
-              </div>
+
+            </div>
 
               <div class="flex items-center justify-end gap-4 px-6 pb-6">
-                <button type="button" onclick="toggleModal('modalDel')" class="btn-red">
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="size-5">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>
-                  </span>
+                <button type="button" id="confirmDelete" class="btn-red flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                  </svg>
                   Удалить
                 </button>
 
@@ -238,27 +160,119 @@
 </body>
 
 <script>
+
+    let userIdToDelete = null;
+    let rowToDelete = null;
+
+    window.addEventListener('DOMContentLoaded', LoadUser);
+
+    // Универсальная функция для открытия/закрытия модального окна с затемнением
     function toggleModal(modalId, show = null) {
-          const modal = document.getElementById(modalId);
-          const overlay = document.getElementById('overlayModal');
+      const modal = document.getElementById(modalId);
+      const overlay = document.getElementById('overlayModal');
 
-          const shouldShow = show !== null ? show : modal.classList.contains('hidden');
+      const shouldShow = show !== null ? show : modal.classList.contains('hidden');
 
-          overlay.classList.toggle('hidden', !shouldShow);
-          modal.classList.toggle('hidden', !shouldShow);
+      overlay.classList.toggle('hidden', !shouldShow);
+      modal.classList.toggle('hidden', !shouldShow);
 
-          // Close other modals
-          document.querySelectorAll('.modal').forEach((m) => {
-            if (m.id !== modalId) m.classList.add('hidden');
+      // Закрыть другие модальные окна
+      document.querySelectorAll('.modal').forEach((m) => {
+        if (m.id !== modalId) m.classList.add('hidden');
+      });
+
+      // Управление прокруткой страницы
+      document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
+
+      if (shouldShow && typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    // Загрузка списка пользователей
+    async function LoadUser() {
+      try {
+        const res = await authorizedFetch('http://10.25.8.116:8000/api/auth/users/');
+        if (!res.ok) throw new Error('Ошибка при получении данных');
+
+        const data = await res.json();
+        const users = data.results;
+
+        const tableBody = document.querySelector(".table-rate tbody");
+        tableBody.innerHTML = '';
+
+        users.forEach(user => {
+          const row = document.createElement("tr");
+          row.className = "hover:bg-orange-100";
+
+          row.innerHTML = `
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.id}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.full_name}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.username}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.role}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.department?.dep_name || '—'}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">
+              <button class="text-red-500 cursor-pointer delete-user-btn"
+                      data-user-id="${user.id}"
+                      data-full-name="${user.full_name}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </td>
+          `;
+
+          const deleteBtn = row.querySelector(".delete-user-btn");
+          deleteBtn.addEventListener("click", () => {
+            userIdToDelete = deleteBtn.dataset.userId;
+            const fullName = deleteBtn.dataset.fullName;
+            rowToDelete = row;
+
+            document.getElementById("userIdText").textContent = userIdToDelete;
+            document.getElementById("userFullNameText").textContent = fullName;
+            toggleModal("modalDel", true);
           });
 
-          // Body scroll control
-          document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
+          tableBody.appendChild(row);
+            });
 
-          if (shouldShow) {
-            lucide.createIcons();
-          }
+      } catch (error) {
+        console.error('Ошибка загрузки пользователей:', error);
       }
+    }
+
+    // Подтверждение удаления пользователя
+    document.getElementById("confirmDelete").addEventListener("click", async function () {
+      if (!userIdToDelete) return;
+
+      try {
+        const response = await authorizedFetch(`http://10.25.8.116:8000/api/users/${userIdToDelete}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          rowToDelete.remove();
+        } else {
+          const errorData = await response.json();
+          console.error("Ошибка при удалении:", errorData);
+        }
+      } catch (error) {
+        console.error("Ошибка сети:", error);
+      } finally {
+        toggleModal("modalDel", false);
+        userIdToDelete = null;
+        rowToDelete = null;
+      }
+    });
+
+      document.getElementById('exit').addEventListener('click', function () {
+        window.location.href = '/index.html';
+      });
+
 </script>
 
 </html>

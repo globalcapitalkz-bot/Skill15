@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Форма отправки</title>
     <link rel="stylesheet" href="/dist/style.css" />
+    <script src="/src/js/auth.js"></script>
+    <script src="/src/js/auth-admin.js"></script>
+    <script src="/src/js/username.js"></script>
+    <script src="/src/js/filial.js"></script>
 
 </head>
 
@@ -55,17 +59,18 @@
       <!-- Правая часть: имя и кнопка выйти -->
       <div class="flex items-center space-x-4">
         <!-- Имя  -->
-        <div class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
+        <div id="user-name" class="sidebar-link flex items-center space-x-2 text-base text-gray-800 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="mr-3 size-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
                       d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               </svg>
-            Админ
+
         </div>
 
         <!-- Кнопка выйти -->
         <button
+                id="exit"
             type="submit"
             class="bg-blue-primary cursor-pointer rounded-lg py-2 px-3 text-base text-white transition">Выйти
         </button>
@@ -79,21 +84,21 @@
       <div class="mt-5 space-y-6">
         <div class="bg-gray-100 grid grid-cols-1 gap-4 rounded-2xl p-5 sm:grid-cols-2" style="width: 900px;" id="form-container">
 
-          <select class="h-11 select-base border-default">
-            <option>Филиал</option>
-            <option>Астана</option>
-            <option>Шымкент</option>
-            <option>Семей</option>
-          </select>
+           <div>
+               <select id="city-select" class="h-11 select-base border-default">
+                 <option disabled selected>Выберите филиал</option>
+               </select>
+           </div>
 
-          <div class="mb-1">
+
+          <div>
               <input id="pay"
                      placeholder="Фактическая оплата"
                      class="input-base border-default"
                      inputmode="decimal" />
           </div>
 
-          <div class="mb-1">
+          <div>
               <input id="iin-bin"
                      placeholder="ИИН/БИН"
                      class="input-base border-default"
@@ -101,7 +106,7 @@
                      inputmode="numeric"/>
           </div>
 
-          <div class="mb-1">
+          <div>
               <input id="count-grade"
                      placeholder="Количество оценок"
                      type="number"
@@ -206,6 +211,7 @@
           </div>
 
           <button type="submit"
+                  id="add-data-btn"
                   class="bg-blue-primary w-full cursor-pointer rounded-lg py-1 h-11 text-xl text-white transition">
             Отправить
           </button>
@@ -349,6 +355,117 @@
         const dateInput = document.getElementById('date-deal');
         const today = new Date().toISOString().split('T')[0]; // Получаем 'YYYY-MM-DD'
         dateInput.value = today;
+      });
+
+ async function submitForm() {
+      const department = document.getElementById('city-select').value;
+        const payValue = document.getElementById('pay').value;
+        const cleanValue = payValue.replace(/\s/g, ''); // удаляет все пробелы
+        const actual_payment = parseFloat(cleanValue);
+      const iin_bin = document.getElementById('iin-bin').value;
+      const evaluation_count = document.getElementById('count-grade').value;
+      const customer_name = document.getElementById('client').value;
+      const bank_name = document.getElementById('bank').value;
+      const payer = document.getElementById('payer').value;
+        const rawValue = document.getElementById('cost').value;
+        const cleanedValue = rawValue.replace(/\s/g, ''); // удаляет все пробелы
+        const cost = parseFloat(cleanedValue);
+      const object_name = document.getElementById('object').value;
+        const areaValue = document.getElementById('area').value;
+        const cleaValue = areaValue.replace(/\s/g, ''); // удаляет все пробелы
+        const area = parseFloat(cleaValue);
+      const object_address = document.getElementById('address').value;
+        const resultValue = document.getElementById('result').textContent;
+        const clValue = resultValue.replace(/\s/g, '').replace(',', '.');
+        const cost_per_sqm = parseFloat(clValue);
+      const contract_number = document.getElementById('number-deal').value;
+      const title_number = document.getElementById('number-titul').value;
+      const contract_date = document.getElementById('date-deal').value;
+      const is_offsite = document.getElementById('trip').value;
+        const sumValue = document.getElementById('sum-deal').value;
+        const cleValue = sumValue.replace(/\s/g, ''); // удаляет все пробелы
+        const contract_amount = parseFloat(cleValue);
+
+      const requiredFields = [
+        'city-select', 'pay', 'iin-bin', 'count-grade', 'client', 'bank',
+        'payer', 'cost', 'object', 'area', 'address', 'number-deal',
+        'number-titul', 'date-deal', 'trip', 'sum-deal'
+      ];
+
+      for (let id of requiredFields) {
+        const element = document.getElementById(id);
+        if (!element.value.trim()) {
+          alert('Пожалуйста, заполните все поля!');
+          element.focus();
+          return;
+        }
+      }
+
+      const payload = {
+        department,
+        actual_payment,
+        iin_bin,
+        evaluation_count,
+        customer_name,
+        bank_name,
+        payer,
+        cost,
+        object_name,
+        area,
+        object_address,
+        cost_per_sqm,
+        contract_number,
+        title_number,
+        contract_date,
+        is_offsite,
+        contract_amount
+      };
+
+      try {
+          const response = await authorizedFetch('http://10.25.8.116:8000/api/reestr/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const responseText = await response.text(); // читаем текст ответа
+
+          if (!response.ok) {
+            throw new Error(responseText); // передаём текст ошибки
+          }
+
+          const data = JSON.parse(responseText);
+          alert('Данные успешно отправлены!');
+          window.location.reload();
+        } catch (error) {
+          console.error('Ошибка:', error);
+
+          let errorMessage = 'Произошла ошибка: ' + error.message;
+
+          try {
+            const parsedError = JSON.parse(error.message);
+            if (parsedError.contract_number && parsedError.contract_number[0].includes('already exists')) {
+              errorMessage = 'Запись с данным номером договора уже имеется в Реестре';
+            }
+          } catch (parseError) {
+            console.warn('Не удалось распарсить сообщение об ошибке:', parseError);
+          }
+
+          alert(errorMessage);
+        }
+     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('add-data-btn').addEventListener('click', function (event) {
+        event.preventDefault();
+        submitForm();
+      });
+    });
+
+      document.getElementById('exit').addEventListener('click', function () {
+        window.location.href = '/index.html';
       });
 
 </script>

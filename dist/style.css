@@ -1705,10 +1705,7 @@ nav {
   padding-block: calc(var(--spacing) * 6);
   text-align: left;
   font-size: .765rem;
-  --tw-font-weight: var(--font-weight-bold);
   font-weight: var(--font-weight-bold);
-  --tw-tracking: var(--tracking-wider);
-  letter-spacing: var(--tracking-wider);
   color: var(--color-primary);
   text-transform: uppercase;
 }
@@ -1716,25 +1713,11 @@ nav {
   text-align: center;
 }
 
-/* Увеличение ширины 6-го столбца */
-#myTable th:nth-child(6),
-#myTable td:nth-child(6) {
-    min-width: 300px;
+#myTable th,
+#myTable td {
+  white-space: nowrap;
 }
 
-/* Увеличение ширины 11-го столбца */
-#myTable th:nth-child(11),
-#myTable td:nth-child(11) {
-    min-width: 100px;
-}
-
-/* Увеличение ширины 3 и 4-го столбцов */
-#myTable th:nth-child(3),
-#myTable th:nth-child(4),
-#myTable td:nth-child(3),
-#myTable td:nth-child(4) {
-    min-width: 150px;
-}
 
 #myTable th:nth-child(20),
 #myTable td:nth-child(20) {
