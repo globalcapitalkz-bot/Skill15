@@ -1709,19 +1709,10 @@ nav {
   color: var(--color-primary);
   text-transform: uppercase;
 }
-.table-rate tbody td:nth-child(6) {
-  text-align: center;
-}
 
 #myTable th,
 #myTable td {
   white-space: nowrap;
-}
-
-
-#myTable th:nth-child(20),
-#myTable td:nth-child(20) {
-    text-align: center;
 }
 
 #myTable.dataTable tbody tr:hover {
@@ -2138,3 +2129,36 @@ nav {
   border-color: var(--color-green-600);
 }
 
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #ccc;
+  font-size: var(--text-base);
+}
+
+.record-count {
+
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

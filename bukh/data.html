@@ -14,7 +14,6 @@
     <script src="/src/js/auth.js"></script>
     <script src="/src/js/auth-user.js"></script>
     <script src="/src/js/username.js"></script>
-    <script src="/src/js/filial.js"></script>
 
 </head>
 
@@ -96,6 +95,7 @@
 
                 <button
                       type="submit"
+                      id="date-filter"
                       class="mt-6 bg-blue-primary cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition"
                     >
                   Применить
@@ -103,6 +103,7 @@
 
                 <button
                   type="submit"
+                  id ="download-excel"
                   class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-5">
@@ -142,32 +143,42 @@
          <tr>
           <!-- Фильтры -->
           <th></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
+          <th><input id="department__dep_name" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="iin_bin" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="customer_name" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="payer_filter" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="object_name" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="object_address" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="contract_number" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
           <th></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
-          <th><input type="text" placeholder="Поиск" /></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><input id="bank_name" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><input id="executor__full_name" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th><input id="title_number" type="text" placeholder="Поиск" style="font-weight: normal;" /></th>
+          <th></th>
         </tr>
     </thead>
-
     <tbody>
 
     </tbody>
   </table>
+
+    <div class="table-footer">
+      <div class="record-count">
+        <span id="page-info">Страница 1</span>
+        - Всего записей: <span id="total-count">0</span>
+      </div>
+      <div class="pagination-controls">
+        <button id="prev-page" disabled><< Назад</button>
+        <button id="next-page">Вперёд >></button>
+      </div>
+   </div>
 
    <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"
         onclick="toggleSidebar()"></div>
@@ -216,202 +227,6 @@
   </main>
 </body>
 
-<script>
-
-    function toggleModal(modalId, show = null) {
-      const modal = document.getElementById(modalId);
-      const overlay = document.getElementById('overlayModal');
-
-      const shouldShow = show !== null ? show : modal.classList.contains('hidden');
-
-      overlay.classList.toggle('hidden', !shouldShow);
-      modal.classList.toggle('hidden', !shouldShow);
-
-      // Close other modals
-      document.querySelectorAll('.modal').forEach((m) => {
-        if (m.id !== modalId) m.classList.add('hidden');
-      });
-
-      // Body scroll control
-      document.body.style.overflow = shouldShow ? 'hidden' : 'auto';
-
-      if (shouldShow) {
-        lucide.createIcons();
-      }
-    }
-
-  async function loadTableData() {
-    try {
-      const response = await authorizedFetch('http://10.25.8.116:8000/api/reestr/');
-      const data = await response.json();
-
-      if (data.results && Array.isArray(data.results)) {
-        const table = $('#myTable').DataTable();
-
-        data.results.forEach(item => {
-          const row = [];
-
-          $('#myTable thead th').each(function () {
-            const field = $(this).data('field');
-
-            if (!field) {
-              row.push('');
-              return;
-            }
-
-            const value = field.split('.').reduce((acc, key) => acc?.[key], item);
-
-            if (field === 'is_paid') {
-              const paidHtml = `
-                <span class="card paid">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  Оплачено
-                </span>`;
-
-              const unpaidHtml = `
-                <span class="card hard">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  Не оплачено
-                </span>`;
-
-              row.push(value ? paidHtml : unpaidHtml);
-            } else {
-              row.push(value ?? '');
-            }
-          });
-
-          table.row.add(row).draw(false);
-        });
-      }
-    } catch (error) {
-      console.error('Ошибка при загрузке данных:', error);
-    }
-  }
-
-  $(document).ready(function () {
-      const table = $('#myTable').DataTable({
-      orderCellsTop: true,
-      fixedHeader: true,
-      searching: true,
-      info: true,
-      paging: true,
-      lengthChange: false,
-      scrollY: true,
-      scrollX: true,
-      language: {
-        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json"
-      },
-      dom: 'rtip',
-      columnDefs: [
-        {
-          targets: [9, 10, 14, 16],
-          render: function (data, type, row) {
-            if (type === 'display' || type === 'filter') {
-              return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            }
-            return data;
-          }
-        },
-        {
-          targets: [10],
-          orderable: false,
-          searchable: false,
-          render: function (data, type, row) {
-            return type === 'display' ? data : $(data).text();
-          }
-        }
-      ]
-    });
-
-    $('#myTable thead tr:eq(1) th').each(function (i) {
-      $('input', this).on('keyup change', function () {
-        if ($('#myTable').DataTable().column(i).search() !== this.value) {
-          $('#myTable').DataTable().column(i).search(this.value).draw();
-        }
-      });
-    });
-
-    let currentRecordId = null;
-
-    $('#myTable tbody').on('click', 'tr', function () {
-      const rowData = table.row(this).data();
-      currentRecordId = rowData[0];
-      toggleModal('modalPaid');
-    });
-
-   async function markAsPaidOnly(currentRecordId) {
-      const payload = { is_paid: true };
-
-      try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Ошибка: ${errorText}`);
-        }
-
-        const data = await response.json();
-        window.location.reload();
-      } catch (error) {
-        alert('Произошла ошибка: ' + error.message);
-      }
-    }
-
-    async function markAsPaidNot(currentRecordId) {
-      const payload = { is_paid: false };
-
-      try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Ошибка: ${errorText}`);
-        }
-
-        const data = await response.json();
-        window.location.reload();
-      } catch (error) {
-        alert('Произошла ошибка: ' + error.message);
-      }
-    }
-
-    document.getElementById('payed').addEventListener('click', function () {
-        console.log('Сохраняем ID:', currentRecordId);
-          markAsPaidOnly(currentRecordId);
-    });
-
-    document.getElementById('not_payed').addEventListener('click', function () {
-        console.log('Сохраняем ID:', currentRecordId);
-          markAsPaidNot(currentRecordId);
-    });
-
-    loadTableData();
-  });
-
-  document.getElementById('exit').addEventListener('click', function () {
-    window.location.href = '/index.html';
-  });
-
-</script>
+<script src="/src/js/bu-data.js"></script>
 
 </html>
