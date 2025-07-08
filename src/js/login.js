@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const response = await fetch(
-        'http://10.25.8.116:8000/api/token/',
+        'https://globalcapital.kz/api/token/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

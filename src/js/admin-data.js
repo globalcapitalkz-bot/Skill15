@@ -196,7 +196,7 @@
       return params.toString();
     }
 
-    async function loadTableData(url = `http://10.25.8.116:8000/api/reestr/?${buildQueryParams()}`) {
+    async function loadTableData(url = `https://globalcapital.kz/api/reestr/?${buildQueryParams()}`) {
       try {
         const response = await authorizedFetch(url);
         const data = await response.json();
@@ -574,7 +574,7 @@
         console.log('currentRecordId:', currentRecordId);
         console.log('Payload:', payload);
 
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
+        const response = await authorizedFetch(`https://globalcapital.kz/api/reestr/${currentRecordId}/`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -604,7 +604,7 @@
       }
 
       try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
+        const response = await authorizedFetch(`https://globalcapital.kz/api/reestr/${currentRecordId}/`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -644,7 +644,7 @@
       button.textContent = 'Загрузка...';
       button.disabled = true;
 
-      const url = `http://10.25.8.116:8000/api/reestr/download-excel/?start_date=${startDate}&end_date=${endDate}`;
+      const url = `https://globalcapital.kz/api/reestr/download-excel/?start_date=${startDate}&end_date=${endDate}`;
 
       authorizedFetch(url)
         .then(response => {

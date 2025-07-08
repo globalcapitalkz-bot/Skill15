@@ -327,7 +327,7 @@ function toggleModal(modalId, show = null) {
       const payload = { is_paid: true };
 
       try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/reestr/${currentRecordId}/`, {
+        const response = await authorizedFetch(`https://globalcapital.kz/api/reestr/${currentRecordId}/`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'

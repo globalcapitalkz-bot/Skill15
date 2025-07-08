@@ -14,7 +14,7 @@ async function refreshAccessToken() {
 
   try {
     const response = await fetch(
-      'http://10.25.8.116:8000/token/refresh/',
+      'https://globalcapital.kz/token/refresh/',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

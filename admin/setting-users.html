@@ -101,7 +101,7 @@
                     <th class="p-table">Логин</th>
                     <th class="p-table">Роль</th>
                     <th class="p-table">Филиал</th>
-                    <th class="p-table">Действие</th>
+<!--                    <th class="p-table">Действие</th>-->
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -111,49 +111,49 @@
           </div>
         </div>
 
-        <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"
-        onclick="toggleSidebar()"></div>
+<!--        <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"-->
+<!--        onclick="toggleSidebar()"></div>-->
 
-        <div id="overlayModal" class="overlay fixed inset-0 z-20 hidden bg-black/50 transition"></div>
+<!--        <div id="overlayModal" class="overlay fixed inset-0 z-20 hidden bg-black/50 transition"></div>-->
 
-        <!-- Delete Data -->
-        <div id="modalDel"
-          class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
-          <div class="relative">
-            <form class="flex flex-col rounded-3xl bg-white shadow-xl">
-              <div class="flex items-center justify-between border-b border-gray-200 px-6 pt-6 pb-4">
-                <p class="text-xl font-bold">Удалить пользователя</p>
-                <button type="button" onclick="toggleModal('modalDel')" class="text-orange-500 hover:text-red-500">
-                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>
-                </button>
-              </div>
+<!--        &lt;!&ndash; Delete Data &ndash;&gt;-->
+<!--        <div id="modalDel"-->
+<!--          class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">-->
+<!--          <div class="relative">-->
+<!--            <form class="flex flex-col rounded-3xl bg-white shadow-xl">-->
+<!--              <div class="flex items-center justify-between border-b border-gray-200 px-6 pt-6 pb-4">-->
+<!--                <p class="text-xl font-bold">Удалить пользователя</p>-->
+<!--                <button type="button" onclick="toggleModal('modalDel')" class="text-orange-500 hover:text-red-500">-->
+<!--                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>-->
+<!--                </button>-->
+<!--              </div>-->
 
-              <div class="px-6 py-4">
-              <p class="mb-4 text-sm">
-                  Вы точно уверены, что хотите удалить пользователя
-                  <span id="userFullNameText" class="font-semibold text-red-600"></span>
-                  (ID: <span id="userIdText" class="font-semibold text-red-600"></span>)?
-                </p>
+<!--              <div class="px-6 py-4">-->
+<!--              <p class="mb-4 text-sm">-->
+<!--                  Вы точно уверены, что хотите удалить пользователя-->
+<!--                  <span id="userFullNameText" class="font-semibold text-red-600"></span>-->
+<!--                  (ID: <span id="userIdText" class="font-semibold text-red-600"></span>)?-->
+<!--                </p>-->
 
-            </div>
+<!--            </div>-->
 
-              <div class="flex items-center justify-end gap-4 px-6 pb-6">
-                <button type="button" id="confirmDelete" class="btn-red flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                  </svg>
-                  Удалить
-                </button>
+<!--              <div class="flex items-center justify-end gap-4 px-6 pb-6">-->
+<!--                <button type="button" id="confirmDelete" class="btn-red flex items-center gap-2">-->
+<!--                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                    stroke="currentColor" class="size-5">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />-->
+<!--                  </svg>-->
+<!--                  Удалить-->
+<!--                </button>-->
 
-                <button type="button" onclick="toggleModal('modalDel')" class="btn-gray-b cursor-pointer">
-                  Отмена
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+<!--                <button type="button" onclick="toggleModal('modalDel')" class="btn-gray-b cursor-pointer">-->
+<!--                  Отмена-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </form>-->
+<!--          </div>-->
+<!--        </div>-->
 
     </main>
 
@@ -192,7 +192,7 @@
     // Загрузка списка пользователей
     async function LoadUser() {
       try {
-        const res = await authorizedFetch('http://10.25.8.116:8000/api/auth/users/');
+        const res = await authorizedFetch('https://globalcapital.kz/api/auth/users/');
         if (!res.ok) throw new Error('Ошибка при получении данных');
 
         const data = await res.json();
@@ -211,28 +211,28 @@
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.username}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.role}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.department?.dep_name || '—'}</td>
-            <td class="px-6 py-4 text-sm whitespace-nowrap">
-              <button class="text-red-500 cursor-pointer delete-user-btn"
-                      data-user-id="${user.id}"
-                      data-full-name="${user.full_name}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </td>
+<!--            <td class="px-6 py-4 text-sm whitespace-nowrap">-->
+<!--              <button class="text-red-500 cursor-pointer delete-user-btn"-->
+<!--                      data-user-id="${user.id}"-->
+<!--                      data-full-name="${user.full_name}">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
+<!--                </svg>-->
+<!--              </button>-->
+<!--            </td>-->
           `;
 
-          const deleteBtn = row.querySelector(".delete-user-btn");
-          deleteBtn.addEventListener("click", () => {
-            userIdToDelete = deleteBtn.dataset.userId;
-            const fullName = deleteBtn.dataset.fullName;
-            rowToDelete = row;
+<!--          const deleteBtn = row.querySelector(".delete-user-btn");-->
+<!--          deleteBtn.addEventListener("click", () => {-->
+<!--            userIdToDelete = deleteBtn.dataset.userId;-->
+<!--            const fullName = deleteBtn.dataset.fullName;-->
+<!--            rowToDelete = row;-->
 
-            document.getElementById("userIdText").textContent = userIdToDelete;
-            document.getElementById("userFullNameText").textContent = fullName;
-            toggleModal("modalDel", true);
-          });
+<!--            document.getElementById("userIdText").textContent = userIdToDelete;-->
+<!--            document.getElementById("userFullNameText").textContent = fullName;-->
+<!--            toggleModal("modalDel", true);-->
+<!--          });-->
 
           tableBody.appendChild(row);
             });
@@ -242,36 +242,36 @@
       }
     }
 
-    // Подтверждение удаления пользователя
-    document.getElementById("confirmDelete").addEventListener("click", async function () {
-      if (!userIdToDelete) return;
+<!--    // Подтверждение удаления пользователя-->
+<!--    document.getElementById("confirmDelete").addEventListener("click", async function () {-->
+<!--      if (!userIdToDelete) return;-->
 
-      try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/users/${userIdToDelete}/`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+<!--      try {-->
+<!--        const response = await authorizedFetch(`https://globalcapital.kz/api/users/${userIdToDelete}/`, {-->
+<!--          method: 'DELETE',-->
+<!--          headers: {-->
+<!--            'Content-Type': 'application/json'-->
+<!--          }-->
+<!--        });-->
 
-        if (response.ok) {
-          rowToDelete.remove();
-        } else {
-          const errorData = await response.json();
-          console.error("Ошибка при удалении:", errorData);
-        }
-      } catch (error) {
-        console.error("Ошибка сети:", error);
-      } finally {
-        toggleModal("modalDel", false);
-        userIdToDelete = null;
-        rowToDelete = null;
-      }
-    });
+<!--        if (response.ok) {-->
+<!--          rowToDelete.remove();-->
+<!--        } else {-->
+<!--          const errorData = await response.json();-->
+<!--          console.error("Ошибка при удалении:", errorData);-->
+<!--        }-->
+<!--      } catch (error) {-->
+<!--        console.error("Ошибка сети:", error);-->
+<!--      } finally {-->
+<!--        toggleModal("modalDel", false);-->
+<!--        userIdToDelete = null;-->
+<!--        rowToDelete = null;-->
+<!--      }-->
+<!--    });-->
 
-      document.getElementById('exit').addEventListener('click', function () {
-        window.location.href = '/index.html';
-      });
+<!--      document.getElementById('exit').addEventListener('click', function () {-->
+<!--        window.location.href = '/index.html';-->
+<!--      });-->
 
 </script>
 

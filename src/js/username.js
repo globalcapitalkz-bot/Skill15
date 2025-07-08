@@ -1,6 +1,6 @@
 async function loadUsername() {
   try {
-    const res = await authorizedFetch('http://10.25.8.116:8000/api/auth/users/me/');
+    const res = await authorizedFetch('https://globalcapital.kz/api/auth/users/me/');
 
     if (!res.ok) throw new Error('Ошибка при получении данных');
 

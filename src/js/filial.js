@@ -1,7 +1,7 @@
 // Выпадающий список выбор филиала
 async function loadDepartments() {
   try {
-    const response = await authorizedFetch('http://10.25.8.116:8000/api/departments/');
+    const response = await authorizedFetch('https://globalcapital.kz/api/departments/?limit=1000');
     const data = await response.json();
 
 //    console.log('Ответ от сервера:', data);

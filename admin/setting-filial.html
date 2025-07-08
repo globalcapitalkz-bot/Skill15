@@ -146,7 +146,7 @@
       }
 
       try {
-        const response = await authorizedFetch('http://10.25.8.116:8000/api/departments/', {
+        const response = await authorizedFetch('https://globalcapital.kz/api/departments/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -186,7 +186,7 @@
       const depId = selectedOption.value;
 
       try {
-        const response = await authorizedFetch(`http://10.25.8.116:8000/api/departments/${depId}/`, {
+        const response = await authorizedFetch(`https://globalcapital.kz/api/departments/${depId}/`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
