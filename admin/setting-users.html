@@ -101,7 +101,7 @@
                     <th class="p-table">Логин</th>
                     <th class="p-table">Роль</th>
                     <th class="p-table">Филиал</th>
-<!--                    <th class="p-table">Действие</th>-->
+                    <th class="p-table">Действие</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -123,39 +123,103 @@
           </div>
         </div>
 
+        <div id="overlay" class="fixed inset-0 z-10 hidden cursor-pointer bg-black/50 transition lg:hidden"
+        onclick="toggleSidebar()"></div>
+
+       <div id="overlayModal" class="overlay fixed inset-0 z-20 hidden bg-black/50 transition"></div>
+
+        <!-- Pay -->
+        <div id="modalUserDeactive"
+          class="modal fixed top-1/2 left-1/2 z-30 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
+          <div class="relative">
+            <form class="flex flex-col rounded-3xl bg-white">
+              <div class="flex items-center justify-between px-6 pt-6 pb-4">
+                <p class="text-xl font-bold">Деактивация пользователя</p>
+                <button type="button" onclick="toggleModal('modalUserDeactive')" class="text-orange-500 hover:text-red-500">
+                  <i data-lucide="x" class="h-5 w-5 cursor-pointer"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-end gap-4 px-6 pb-6">
+                <button id ="userdeactive" type="button" class="btn-red">
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </span>
+                  Деактивировать пользователя
+                </button>
+
+                <button type="button" onclick="toggleModal('modalUserDeactive')" class="btn-gray-b cursor-pointer">
+                  Отмена
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
     </main>
 
 </body>
 
 <script>
 
-    // Загрузка списка пользователей
-    let currentPage = 1;
-    let nextPageUrl = null;
-    let prevPageUrl = null;
-    const pageSize = 10;
+  let userIdToDelete = null;
+  let currentPage = 1;
+  let nextPageUrl = null;
+  let prevPageUrl = null;
+  const pageSize = 10;
 
-    const prevBtn = document.getElementById("prev-page-user");
-    const nextBtn = document.getElementById("next-page-user");
-    const pageInfo = document.getElementById("page-info-user");
-    const totalCountEl = document.getElementById("total-count-user");
+  const prevBtn = document.getElementById("prev-page-user");
+  const nextBtn = document.getElementById("next-page-user");
+  const pageInfo = document.getElementById("page-info-user");
+  const totalCountEl = document.getElementById("total-count-user");
 
-    async function LoadUser(url = `https://globalcapital.kz/api/auth/users/?limit=${pageSize}`) {
-      try {
-        const res = await authorizedFetch(url);
-        if (!res.ok) throw new Error('Ошибка при получении данных');
+  window.addEventListener("DOMContentLoaded", () => LoadUser());
 
-        const data = await res.json();
-        const users = data.results;
-        const total = data.count;
+  // Функция для открытия/закрытия модального окна
+  function toggleModal(modalId, show = null) {
+    const modal = document.getElementById(modalId);
+    const overlay = document.getElementById("overlayModal");
 
-        nextPageUrl = data.next;
-        prevPageUrl = data.previous;
+    const shouldShow = show !== null ? show : modal.classList.contains("hidden");
 
-        const tableBody = document.querySelector(".table-rate tbody");
-        tableBody.innerHTML = '';
+    // Управляем классом hidden
+    overlay.classList.toggle("hidden", !shouldShow);
+    modal.classList.toggle("hidden", !shouldShow);
 
-        users.forEach(user => {
+    // Закрыть другие модалки
+    document.querySelectorAll(".modal").forEach((m) => {
+      if (m.id !== modalId) m.classList.add("hidden");
+    });
+
+    document.body.style.overflow = shouldShow ? "hidden" : "auto";
+
+    if (shouldShow && typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  }
+
+  async function LoadUser(url = `https://globalcapital.kz/api/auth/users/?limit=${pageSize}`) {
+    try {
+      const res = await authorizedFetch(url);
+      if (!res.ok) throw new Error("Ошибка при получении данных");
+
+      const data = await res.json();
+      const users = data.results;
+      const total = data.count;
+
+      nextPageUrl = data.next;
+      prevPageUrl = data.previous;
+
+      const tableBody = document.querySelector(".table-rate tbody");
+      tableBody.innerHTML = "";
+
+      const activeUsers = users.filter(user => user.is_active); // только активные
+
+        activeUsers.forEach((user) => {
           const row = document.createElement("tr");
           row.className = "hover:bg-orange-100";
 
@@ -164,41 +228,81 @@
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.full_name}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.username}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.role}</td>
-            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.department?.dep_name || '—'}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.department?.dep_name || "—"}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">
+              <button class="text-red-500 cursor-pointer delete-user-btn"
+                      data-user-id="${user.id}"
+                      data-full-name="${user.full_name}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </td>
           `;
+
+          const deleteBtn = row.querySelector(".delete-user-btn");
+          deleteBtn.addEventListener("click", () => {
+            const userId = row.querySelector("td").textContent.trim();
+            userIdToDelete = userId;
+            toggleModal("modalUserDeactive", true);
+          });
+
           tableBody.appendChild(row);
         });
 
-        // Обновление информации и кнопок
-        pageInfo.textContent = `Страница ${currentPage}`;
-        totalCountEl.textContent = total;
+      pageInfo.textContent = `Страница ${currentPage}`;
+      totalCountEl.textContent = total;
 
-        prevBtn.disabled = !prevPageUrl;
-        nextBtn.disabled = !nextPageUrl;
-
-      } catch (error) {
-        console.error('Ошибка загрузки пользователей:', error);
-      }
+      prevBtn.disabled = !prevPageUrl;
+      nextBtn.disabled = !nextPageUrl;
+    } catch (error) {
+      console.error("Ошибка загрузки пользователей:", error);
     }
+  }
 
-    // Кнопки
-    prevBtn.addEventListener("click", () => {
-      if (prevPageUrl) {
-        currentPage--;
-        LoadUser(prevPageUrl);
+  prevBtn.addEventListener("click", () => {
+    if (prevPageUrl) {
+      currentPage--;
+      LoadUser(prevPageUrl);
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (nextPageUrl) {
+      currentPage++;
+      LoadUser(nextPageUrl);
+    }
+  });
+
+  document.getElementById("userdeactive").addEventListener("click", async function () {
+    if (!userIdToDelete) return;
+    const deactiveload = { is_active: false };
+
+    try {
+      const response = await authorizedFetch(`https://globalcapital.kz/api/users/${userIdToDelete}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(deactiveload)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Ошибка: ${errorText}`);
       }
-    });
 
-    nextBtn.addEventListener("click", () => {
-      if (nextPageUrl) {
-        currentPage++;
-        LoadUser(nextPageUrl);
-      }
-    });
+      await response.json();
+      window.location.reload();
+    } catch (error) {
+      alert("Произошла ошибка: " + error.message);
+    }
+  });
 
-    // Первая загрузка
-    LoadUser();
-
+  document.getElementById("exit").addEventListener("click", function () {
+    window.location.href = "/index.html";
+  });
 </script>
 
 </html>
