@@ -13,8 +13,7 @@ async function refreshAccessToken() {
   }
 
   try {
-    const response = await fetch(
-      'https://globalcapital.kz/token/refresh/',
+    const response = await fetch('https://globalcapital.kz/token/refresh/',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
