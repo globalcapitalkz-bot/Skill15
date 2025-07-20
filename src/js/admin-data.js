@@ -240,7 +240,9 @@
               }
             });
 
-            table.row.add(row);
+            // Добавляем строку и сразу встраиваем data-id
+            const addedRow = table.row.add(row).node();
+            $(addedRow).attr('data-id', item.id);
           });
 
           table.draw(false);
@@ -453,11 +455,12 @@
           });
       });
 
-    let currentRecordId = null;
-
-    $('#myTable tbody').on('click', 'tr', function () {
+    $('#myTable tbody').on('dblclick', 'tr', function () {
       const rowData = table.row(this).data();
-      currentRecordId = rowData[0];
+
+      const modal = document.getElementById('modalEdit');
+      modal.dataset.id = $(this).data('id');
+      console.log('Текущий ID:', modal.dataset.id);
 
       // Пример: вставка данных в модальное окно
       const select = document.getElementById('city-select');
@@ -497,7 +500,6 @@
 
       document.getElementById('number-titul').value = rowData[18];
       document.getElementById('trip').value = rowData[19];
-
 
       toggleModal('modalEdit');
 
@@ -571,9 +573,6 @@
 
       try {
 
-        console.log('currentRecordId:', currentRecordId);
-        console.log('Payload:', payload);
-
         const response = await authorizedFetch(`https://globalcapital.kz/api/reestr/${currentRecordId}/`, {
           method: 'PUT',
           headers: {
@@ -587,17 +586,29 @@
         }
 
         const data = await response.json();
+
       } catch (error) {
-      }
+          alert('Произошла ошибка при сохранении, попробуйте еще раз');
+        }
     }
 
     document.getElementById('save-button').addEventListener('click', async function () {
-      console.log('Сохраняем ID:', currentRecordId);
+      const modal = document.getElementById('modalEdit');
+      const currentRecordId = modal.dataset.id;
+
+      if (!currentRecordId) {
+        alert('ID записи не найден!');
+        return;
+      }
+
       await submitForm(currentRecordId);
+      window.location.reload();
     });
 
-
     document.getElementById('delete-data').addEventListener('click', async function () {
+      const modal = document.getElementById('modalEdit');
+      const currentRecordId = modal.dataset.id;
+
       if (!currentRecordId) {
         alert('ID записи не найден!');
         return;
@@ -615,7 +626,7 @@
           throw new Error('Ошибка при удалении записи');
         }
 
-        window.location.reload(); // или перенаправление на другую страницу
+        window.location.reload();
       } catch (error) {
         alert('Произошла ошибка при удалении: ' + error.message);
       }

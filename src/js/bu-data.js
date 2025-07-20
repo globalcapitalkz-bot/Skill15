@@ -101,7 +101,9 @@ function toggleModal(modalId, show = null) {
               }
             });
 
-            table.row.add(row);
+            // Добавляем строку и сразу встраиваем data-id
+            const addedRow = table.row.add(row).node();
+            $(addedRow).attr('data-id', item.id);
           });
 
           table.draw(false);
@@ -315,11 +317,14 @@ function toggleModal(modalId, show = null) {
           });
       });
 
-    let currentRecordId = null;
 
-    $('#myTable tbody').on('click', 'tr', function () {
+    $('#myTable tbody').on('dblclick', 'tr', function () {
       const rowData = table.row(this).data();
-      currentRecordId = rowData[0];
+
+      const modal = document.getElementById('modalPaid');
+      modal.dataset.id = $(this).data('id');
+      console.log('Текущий ID:', modal.dataset.id);
+
       toggleModal('modalPaid');
     });
 
@@ -372,13 +377,25 @@ function toggleModal(modalId, show = null) {
     }
 
     document.getElementById('payed').addEventListener('click', function () {
-        console.log('Сохраняем ID:', currentRecordId);
-          markAsPaidOnly(currentRecordId);
+      const modal = document.getElementById('modalPaid');
+      const currentRecordId = modal.dataset.id;
+
+      if (!currentRecordId) {
+        alert('ID записи не найден!');
+        return;
+      }
+        markAsPaidOnly(currentRecordId);
     });
 
     document.getElementById('not_payed').addEventListener('click', function () {
-        console.log('Сохраняем ID:', currentRecordId);
-          markAsPaidNot(currentRecordId);
+      const modal = document.getElementById('modalPaid');
+      const currentRecordId = modal.dataset.id;
+
+      if (!currentRecordId) {
+        alert('ID записи не найден!');
+        return;
+      }
+        markAsPaidNot(currentRecordId);
     });
 
     loadTableData();
@@ -387,8 +404,6 @@ function toggleModal(modalId, show = null) {
   document.getElementById('exit').addEventListener('click', function () {
     window.location.href = '/index.html';
   });
-
-
 
    document.getElementById('download-excel').addEventListener('click', function (event) {
       event.preventDefault();

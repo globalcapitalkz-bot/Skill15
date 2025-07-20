@@ -126,26 +126,15 @@
                     </select>
                   </div>
 
-                  <div>
-                       <label class="ml-2 mb-1 block text-sm font-medium text-gray-700">ИИН</label>
-                       <input
-                          id="bin"
-                          class="input-base border-default"
-                          maxlength="12"
-                          inputmode="numeric"
-                          pattern="\d*"
-                        />
-                  </div>
-
-                    <div class="flex items-center mb-4">
+<!--                    <div class="flex items-center mb-4">-->
 <!--                        <input type="checkbox" class="custom-checkbox mr-2" id="view" />-->
 <!--                        <label for="view" class="text-gray-500">Только просмотр</label>-->
-                    </div>
+<!--                    </div>-->
 
                     <button
                       type="submit"
                       id="add-user-btn"
-                      class="ml-auto mt-6 btn-orange cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
+                      class="w-full ml-auto mt-6 btn-orange cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -161,13 +150,6 @@
 </body>
 
 <script>
-    const binInput = document.getElementById('bin');
-
-    binInput.addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, ''); // Удалить всё, кроме цифр
-        e.target.value = value;
-      });
-
 
       document.getElementById('add-user-btn').addEventListener('click', async function (e) {
       e.preventDefault();
