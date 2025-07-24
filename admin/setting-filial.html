@@ -131,10 +131,29 @@
 
             </div>
         </div>
+
+        <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6 mt-6 space-y-6">
+          <div class="border-white mb-6 overflow-x-auto rounded-2xl">
+              <table class="table-rate w-full">
+                <thead class="bg-white">
+                  <tr class="table-tr border-gray-border border-b">
+                    <th class="p-table">Id</th>
+                    <th class="p-table">Филиал</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+<!--                  Добавляется с помощью js-->
+                </tbody>
+              </table>
+
+          </div>
+        </div>
     </main>
 </body>
 
 <script>
+    document.addEventListener("DOMContentLoaded", loadDepartmentsToTable);
+
     // Добавление филиала в список
     document.getElementById('add-filial-btn').addEventListener('click', async function () {
       const input = document.getElementById('new-filial');
@@ -210,6 +229,42 @@
       document.getElementById('exit').addEventListener('click', function () {
         window.location.href = '/index.html';
       });
+
+    async function loadDepartmentsToTable() {
+      try {
+        const response = await authorizedFetch('https://globalcapital.kz/api/departments/');
+        const data = await response.json();
+
+        console.log('Ответ от сервера:', data);
+
+        const tbody = document.querySelector('table.table-rate tbody');
+        tbody.innerHTML = '';
+
+        if (Array.isArray(data)) {
+          data.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.className = 'bg-white hover:bg-gray-50';
+
+            const tdId = document.createElement('td');
+            tdId.className = 'p-table text-center';
+            tdId.textContent = item.id;
+
+            const tdDep = document.createElement('td');
+            tdDep.className = 'p-table text-left';
+            tdDep.textContent = item.dep_name;
+
+            tr.appendChild(tdId);
+            tr.appendChild(tdDep);
+            tbody.appendChild(tr);
+          });
+        } else {
+          console.error('Ожидался массив, но получено:', data);
+        }
+
+      } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+      }
+    }
 
 </script>
 

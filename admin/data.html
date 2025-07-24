@@ -124,17 +124,32 @@
                   Применить
                 </button>
 
-                <button
-                  type="submit"
-                  id ="download-excel"
-                  class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                  </svg>
-                  Скачать данные
-                </button>
+                <input type="file" id="new-filial" accept=".xlsx" class="hidden" />
+
+                <div class="ml-auto flex gap-2">
+                  <button
+                    type="submit"
+                    id="load-file"
+                    class="mt-6 bg-blue-primary cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>
+                    Загрузить файл Excel
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="download-excel"
+                    class="mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                    Скачать данные
+                  </button>
+                </div>
 
             </div>
         </div>
@@ -428,5 +443,27 @@
 </body>
 
 <script src="/src/js/admin-data.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("new-filial");
+    const loadBtn = document.getElementById("load-file");
+
+    loadBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      fileInput.click(); // открываем диалог выбора файла
+    });
+
+    fileInput.addEventListener("change", function () {
+      const file = fileInput.files[0];
+      if (file) {
+        console.log("Файл выбран:", file.name);
+
+        // Здесь можешь добавить код для загрузки на сервер
+        // например, через fetch или FormData
+      }
+    });
+  });
+</script>
 
 </html>

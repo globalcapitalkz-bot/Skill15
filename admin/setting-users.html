@@ -101,6 +101,7 @@
                     <th class="p-table">Логин</th>
                     <th class="p-table">Роль</th>
                     <th class="p-table">Филиал</th>
+                    <th class="p-table">Статус</th>
                     <th class="p-table">Действие</th>
                   </tr>
                 </thead>
@@ -144,10 +145,10 @@
                 <button id ="userdeactive" type="button" class="btn-red">
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                           stroke-width="1.5" stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
+                              d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                   </span>
                   Деактивировать пользователя
                 </button>
@@ -155,6 +156,10 @@
                 <button type="button" onclick="toggleModal('modalUserDeactive')" class="btn-gray-b cursor-pointer">
                   Отмена
                 </button>
+              </div>
+
+              <div class="flex items-center justify-end gap-4 px-6 pb-6">
+                  <span>При деактивации, пользователь не сможет заходить под своим логином и паролем</span>
               </div>
             </form>
           </div>
@@ -217,9 +222,13 @@
       const tableBody = document.querySelector(".table-rate tbody");
       tableBody.innerHTML = "";
 
-      const activeUsers = users.filter(user => user.is_active); // только активные
+      const roleMap = {
+        admin: "Админ",
+        accountant: "Бухгалтер",
+        employee: "Сотрудник"
+      };
 
-        activeUsers.forEach((user) => {
+        users.forEach((user) => {
           const row = document.createElement("tr");
           row.className = "hover:bg-orange-100";
 
@@ -227,8 +236,11 @@
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.id}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.full_name}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.username}</td>
-            <td class="px-6 py-4 text-sm whitespace-nowrap">${user.role}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">${roleMap[user.role] || "—"}</td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">${user.department?.dep_name || "—"}</td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">
+              ${user.is_active ? "Активный" : "Не активный"}
+            </td>
             <td class="px-6 py-4 text-sm whitespace-nowrap">
               <button class="text-red-500 cursor-pointer delete-user-btn"
                       data-user-id="${user.id}"
