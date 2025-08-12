@@ -616,7 +616,7 @@
   .justify-center {
     justify-content: center;
   }
-  .gap-0\.5 {
+/*.gap-0\.5 {
     gap: calc(var(--spacing) * 0.5);
   }
   .gap-1 {
@@ -633,7 +633,32 @@
   }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
-  }
+  } */
+    .gap-0\.5 {
+      gap: 0.125rem; /* 2px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 0.5);
+    }
+    .gap-1 {
+      gap: 0.25rem; /* 4px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 1);
+    }
+    .gap-2 {
+      gap: 0.5rem; /* 8px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 2);
+    }
+    .gap-3 {
+      gap: 0.75rem; /* 12px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 3);
+    }
+    .gap-4 {
+      gap: 1rem; /* 16px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 4);
+    }
+    .gap-6 {
+      gap: 1.5rem; /* 24px fallback */
+      gap: calc(var(--spacing, 0.25rem) * 6);
+    }
+
   .space-y-1 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -2162,3 +2187,50 @@ nav {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* Скрытый по умолчанию спиннер-оверлей */
+#spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* полупрозрачный чёрный фон */
+  display: none; /* прячем спиннер */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Белый контейнер внутри оверлея */
+#spinner .spinner-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Сам вращающийся круг */
+.spinner-icon {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #2563eb; /* синий цвет */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Кнопка загрузки */
+/* #load-file {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+} */

@@ -175,6 +175,7 @@
       bank_name: '',
       executor__full_name: '',
       title_number: '',
+      company: '',
       page: 1
     };
 
@@ -192,6 +193,7 @@
       if (filterState.bank_name) params.append('bank_name', filterState.bank_name);
       if (filterState.executor__full_name) params.append('executor__full_name', filterState.executor__full_name);
       if (filterState.title_number) params.append('title_number', filterState.title_number);
+      if (filterState.company) params.append('company', filterState.company);
       params.append('page', filterState.page);
       return params.toString();
     }
@@ -405,6 +407,17 @@
       }, 400);
     });
 
+    // Поиск по Компании с debounce
+    let debounceTimercompany  = null;
+    document.getElementById('filter_company').addEventListener('input', (e) => {
+      clearTimeout(debounceTimercompany);
+      debounceTimercompany = setTimeout(() => {
+        filterState.company = e.target.value.trim();
+        filterState.page = 1;
+        loadTableData();
+      }, 400);
+    });
+
 // ✅ Единая инициализация DataTable
   $(document).ready(function () {
       const table = $('#myTable').DataTable({
@@ -500,6 +513,7 @@
 
       document.getElementById('number-titul').value = rowData[18];
       document.getElementById('trip').value = rowData[19];
+      document.getElementById('company').value = rowData[20];
 
       toggleModal('modalEdit');
 
@@ -535,11 +549,12 @@
         const sumValue = document.getElementById('sum-deal').value;
         const cleValue = sumValue.replace(/\s/g, ''); // удаляет все пробелы
         const contract_amount = parseFloat(cleValue);
+        const company = document.getElementById('company').value;
 
       const requiredFields = [
         'city-select', 'pay', 'iin-bin', 'count-grade', 'client', 'bank',
         'payer', 'cost', 'object', 'area', 'address', 'number-deal',
-        'number-titul', 'date-deal', 'trip', 'sum-deal'
+        'number-titul', 'date-deal', 'trip', 'sum-deal', 'company'
       ];
 
       for (let id of requiredFields) {
@@ -568,7 +583,8 @@
         title_number,
         contract_date,
         is_offsite,
-        contract_amount
+        contract_amount,
+        company
       };
 
       try {

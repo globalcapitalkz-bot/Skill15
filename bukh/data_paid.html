@@ -27,7 +27,7 @@
 
         <!-- Навигация -->
         <nav class="flex text-base text-gray-700">
-          <a href="/bukh/data.html" class="sidebar-link active">
+          <a href="/bukh/data.html" class="sidebar-link">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="mr-3 size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -36,7 +36,7 @@
              Общий реестр
             </a>
 
-            <a href="/bukh/data_paid.html" class="sidebar-link" style="color: red;">
+            <a href="/bukh/data_paid.html" class="sidebar-link active" style="color: red;">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="mr-3 size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -111,17 +111,17 @@
                   Применить
                 </button>
 
-                <button
-                  type="submit"
-                  id ="download-excel"
-                  class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                  </svg>
-                  Скачать данные
-                </button>
+<!--                <button-->
+<!--                  type="submit"-->
+<!--                  id ="download-excel"-->
+<!--                  class="ml-auto mt-6 bg-green-600 cursor-pointer rounded-lg py-1 px-6 h-10 text-base text-white transition flex items-center gap-2">-->
+<!--                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                    stroke="currentColor" class="size-5">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />-->
+<!--                  </svg>-->
+<!--                  Скачать данные-->
+<!--                </button>-->
 
             </div>
         </div>
@@ -184,7 +184,6 @@
     <div class="table-footer">
       <div class="record-count">
         <span id="page-info">Страница 1</span>
-        - Всего записей: <span id="total-count">0</span>
       </div>
       <div class="pagination-controls">
         <button id="prev-page" disabled><< Назад</button>
@@ -220,17 +219,6 @@
               </span>
               Оплачено
             </button>
-
-            <button id ="not_payed" type="button" class="btn-red">
-              <span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke-width="1.5" stroke="currentColor" class="size-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </span>
-              Нет оплаты
-            </button>
           </div>
         </form>
       </div>
@@ -239,6 +227,6 @@
   </main>
 </body>
 
-<script src="/src/js/bu-data.js"></script>
+<script src="/src/js/bu-data-paid.js"></script>
 
 </html>

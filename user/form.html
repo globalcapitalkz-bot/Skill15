@@ -75,7 +75,7 @@
 
            <div>
                <select id="city-select" class="h-11 select-base border-default">
-                 <option disabled selected>Выберите филиал</option>
+                 <option value="" disabled selected>Выберите филиал</option>
                </select>
            </div>
 
@@ -198,6 +198,23 @@
                      inputmode="decimal"
                      required/>
           </div>
+
+            <div>
+               <select id="company" class="h-11 select-base border-default">
+                 <option value="" disabled selected>Выберите компанию</option>
+                   <option>ТОО Global Capital</option>
+                   <option>ТОО Global Capital-N</option>
+                   <option>ТОО Global Capital-S</option>
+                   <option>ТОО Global Capital-WN</option>
+                   <option>ТОО Global Capital-E</option>
+                   <option>Филиал ТОО Global Capital-WN в г.Актау</option>
+               </select>
+           </div>
+
+            <div class="mb-1">
+              <p class="text-red-500 text-sm">* Необходимо заполнить все поля!</p>
+            </div>
+
 
           <button type="submit"
                   id="add-data-btn"
@@ -374,11 +391,12 @@
         const sumValue = document.getElementById('sum-deal').value;
         const cleValue = sumValue.replace(/\s/g, ''); // удаляет все пробелы
         const contract_amount = parseFloat(cleValue);
+        const company = document.getElementById('company').value;
 
       const requiredFields = [
         'city-select', 'pay', 'iin-bin', 'count-grade', 'client', 'bank',
         'payer', 'cost', 'object', 'area', 'address', 'number-deal',
-        'number-titul', 'date-deal', 'trip', 'sum-deal'
+        'number-titul', 'date-deal', 'trip', 'sum-deal', 'company'
       ];
 
       for (let id of requiredFields) {
@@ -407,7 +425,8 @@
         title_number,
         contract_date,
         is_offsite,
-        contract_amount
+        contract_amount,
+        company
       };
 
       try {

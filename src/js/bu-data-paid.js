@@ -68,7 +68,11 @@ function toggleModal(modalId, show = null) {
         table.clear();
 
         if (data.results && Array.isArray(data.results)) {
-          data.results.forEach(item => {
+          // ✅ фильтруем только оплаченные записи
+          const paidResults = data.results.filter(item => item.is_paid === false);
+          paidCount = paidResults.length;
+
+          paidResults.forEach(item => {
             const row = [];
 
             $('#myTable thead th').each(function () {
@@ -78,16 +82,6 @@ function toggleModal(modalId, show = null) {
               const value = field.split('.').reduce((acc, key) => acc?.[key], item);
 
               if (field === 'is_paid') {
-                  const paidHtml = `
-                    <span class="card paid">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                           stroke-width="1.5" stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                      </svg>
-                      Оплачено
-                    </span>`;
-
                   const unpaidHtml = `
                     <span class="card hard">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -111,7 +105,6 @@ function toggleModal(modalId, show = null) {
           table.draw(false);
         }
 
-        document.getElementById('total-count').textContent = data.count;
         nextPageUrl = data.next;
         prevPageUrl = data.previous;
 
@@ -279,7 +272,6 @@ function toggleModal(modalId, show = null) {
       }, 400);
     });
 
-
 // ✅ Единая инициализация DataTable
   $(document).ready(function () {
       const table = $('#myTable').DataTable({
@@ -365,30 +357,6 @@ function toggleModal(modalId, show = null) {
       }
     }
 
-    async function markAsPaidNot(currentRecordId) {
-      const payload = { is_paid: false };
-
-      try {
-        const response = await authorizedFetch(`https://globalcapital.kz/api/reestr/${currentRecordId}/`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Ошибка: ${errorText}`);
-        }
-
-        const data = await response.json();
-        window.location.reload();
-      } catch (error) {
-        alert('Произошла ошибка: ' + error.message);
-      }
-    }
-
     document.getElementById('payed').addEventListener('click', function () {
       const modal = document.getElementById('modalPaid');
       const currentRecordId = modal.dataset.id;
@@ -400,73 +368,9 @@ function toggleModal(modalId, show = null) {
         markAsPaidOnly(currentRecordId);
     });
 
-    document.getElementById('not_payed').addEventListener('click', function () {
-      const modal = document.getElementById('modalPaid');
-      const currentRecordId = modal.dataset.id;
-
-      if (!currentRecordId) {
-        alert('ID записи не найден!');
-        return;
-      }
-        markAsPaidNot(currentRecordId);
-    });
-
     loadTableData();
   });
 
   document.getElementById('exit').addEventListener('click', function () {
     window.location.href = '/index.html';
   });
-
-   document.getElementById('download-excel').addEventListener('click', function (event) {
-      event.preventDefault();
-
-      const startDate = document.getElementById('start-date').value;
-      const endDate = document.getElementById('end-date').value;
-      const button = document.getElementById('download-excel');
-
-      if (!startDate || !endDate) {
-        alert('Пожалуйста, выберите дату начала и дату окончания');
-        return;
-      }
-
-      // Изменяем текст и отключаем кнопку
-      button.textContent = 'Загрузка...';
-      button.disabled = true;
-
-      const url = `https://globalcapital.kz/api/reestr/download-excel/?start_date=${startDate}&end_date=${endDate}`;
-
-      authorizedFetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Ошибка при загрузке файла');
-          }
-          return response.blob();
-        })
-        .then(blob => {
-          const downloadUrl = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = downloadUrl;
-          a.download = 'reestr.xlsx';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(downloadUrl);
-        })
-        .catch(error => {
-          console.error('Ошибка:', error);
-          alert('Не удалось загрузить файл.');
-        })
-        .finally(() => {
-          // Возвращаем исходное состояние кнопки
-          button.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
-            Скачать данные
-          `;
-          button.disabled = false;
-        });
-    });
